@@ -1,0 +1,32 @@
+[
+    {
+        "id": "sample-1",
+        "name": "Sarah M.",
+        "email": "sample@example.com",
+        "message": "Working with Tarzan was an incredible experience. He brought fresh ideas and delivered beyond expectations. Highly recommend!",
+        "context": "Collaboration",
+        "rating": 5,
+        "status": "published",
+        "createdAt": "2026-01-15T10:00:00Z"
+    },
+    {
+        "id": "sample-2",
+        "name": "Ahmed K.",
+        "email": "sample2@example.com",
+        "message": "Professional, timely, and creative. The project was completed ahead of schedule with excellent quality.",
+        "context": "Project",
+        "rating": 5,
+        "status": "published",
+        "createdAt": "2026-01-20T14:30:00Z"
+    },
+    {
+        "id": "sample-3",
+        "name": "Lisa T.",
+        "email": "sample3@example.com",
+        "message": "Great consultation session. Helped clarify our technical roadmap and provided actionable insights.",
+        "context": "Consultation",
+        "rating": 4,
+        "status": "published",
+        "createdAt": "2026-02-01T09:00:00Z"
+    }
+]
