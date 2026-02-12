@@ -37,6 +37,7 @@ const chonburi = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://tarzan.software"),
   title: "Tarzan ",
   description: "Portfolio of Tarzan - Showcasing creative technology, interactive web experiences, and high-performance software solutions.",
   openGraph: {

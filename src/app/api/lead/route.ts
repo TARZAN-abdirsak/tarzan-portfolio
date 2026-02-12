@@ -4,8 +4,6 @@ import { Resend } from 'resend';
 // Email recipient (business owner)
 const BUSINESS_EMAIL = "abukarabdirsak@tarzan.software";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 interface LeadRequest {
     name: string;
     email: string;
@@ -13,6 +11,14 @@ interface LeadRequest {
 }
 
 export async function POST(req: Request) {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+        return NextResponse.json(
+            { error: "Server misconfigured: RESEND_API_KEY missing" },
+            { status: 500 }
+        );
+    }
+    const resend = new Resend(apiKey);
     try {
         const body: LeadRequest = await req.json();
         const { name, email, conversation } = body;

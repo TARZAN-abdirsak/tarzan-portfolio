@@ -88,7 +88,7 @@ export default function FeedbackForm() {
                         maxLength={100}
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-black focus:ring-1 focus:ring-black outline-none transition-colors"
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-black focus:ring-1 focus:ring-black outline-none transition-colors text-black"
                         placeholder="Your name"
                     />
                 </div>
@@ -101,7 +101,7 @@ export default function FeedbackForm() {
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-black focus:ring-1 focus:ring-black outline-none transition-colors"
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-black focus:ring-1 focus:ring-black outline-none transition-colors text-black"
                         placeholder="your@email.com"
                     />
                     <p className="text-xs text-gray-400 mt-1">Never shown publicly</p>
@@ -117,7 +117,7 @@ export default function FeedbackForm() {
                         rows={4}
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-black focus:ring-1 focus:ring-black outline-none transition-colors resize-none"
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-black focus:ring-1 focus:ring-black outline-none transition-colors resize-none text-black"
                         placeholder="Share your experience..."
                     />
                 </div>
@@ -129,7 +129,7 @@ export default function FeedbackForm() {
                         required
                         value={formData.context}
                         onChange={(e) => setFormData({ ...formData, context: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-black focus:ring-1 focus:ring-black outline-none transition-colors bg-white"
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-black focus:ring-1 focus:ring-black outline-none transition-colors bg-white text-black"
                     >
                         <option value="">Select one...</option>
                         {CONTEXT_OPTIONS.map((opt) => (
