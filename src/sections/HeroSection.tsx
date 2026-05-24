@@ -5,6 +5,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import seminarGroupImg from "@/assets/images/seminar_group.png";
 import { useCursor } from "@/context/CursorContext";
+import { useLanguage } from "@/context/LanguageContext";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -118,6 +119,7 @@ const REPEAT_COUNT = 20;
 
 export default function HeroSection() {
     const { showRead, showClick, resetCursor } = useCursor();
+    const { t } = useLanguage();
     const sectionRef = useRef<HTMLElement>(null);
     const leftSvgRef = useRef<HTMLDivElement>(null);
     const rightSvgRef = useRef<HTMLDivElement>(null);
@@ -346,7 +348,7 @@ export default function HeroSection() {
 
                 {/* Subtitle */}
                 <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed font-medium" onMouseEnter={handleLetterHover} onMouseLeave={handleDefaultHover}>
-                    Helping businesses turn complex ideas into scalable and high performance software solutions using modern technologies
+                    {t("hero.subtitle")}
                 </p>
 
             </div>
@@ -396,18 +398,18 @@ export default function HeroSection() {
 
             {/* Black Card (Bottom Left) */}
             <div className="absolute bottom-4 left-4 md:bottom-10 md:left-10 bg-black text-white p-5 rounded-2xl w-56 shadow-2xl z-20 hidden md:block rotate-[-5deg]">
-                <h4 className="font-bold text-base mb-3">Code Quality</h4>
+                <h4 className="font-bold text-base mb-3">{t("hero.codeQuality.title")}</h4>
                 <div className="flex items-center gap-3 mb-2 text-xs text-gray-300">
                     <CheckCircleIcon />
-                    <span>Implementation guarantee</span>
+                    <span>{t("hero.codeQuality.item1")}</span>
                 </div>
                 <div className="flex items-center gap-3 mb-2 text-xs text-gray-300">
                     <CheckCircleIcon />
-                    <span>Clean & Scalable Code</span>
+                    <span>{t("hero.codeQuality.item2")}</span>
                 </div>
                 <div className="flex items-center gap-3 text-xs text-gray-300">
                     <CheckCircleIcon />
-                    <span>High Performance & ...</span>
+                    <span>{t("hero.codeQuality.item3")}</span>
                 </div>
             </div>
 

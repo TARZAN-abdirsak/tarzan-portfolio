@@ -2,8 +2,11 @@
 
 import React from "react";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Footer() {
+    const { t } = useLanguage();
+
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
@@ -16,11 +19,11 @@ export default function Footer() {
                 <div className="flex justify-between items-end mb-24 border-b border-white/20 pb-20">
                     <div className="relative">
                         <h2 className="text-[12vw] leading-[0.8] tracking-tighter font-bold">
-                            Next
+                            {t("footer.next")}
                         </h2>
                     </div>
                     <h2 className="text-[12vw] leading-[0.8] tracking-tighter font-bold text-right">
-                        Work
+                        {t("footer.work")}
                     </h2>
                 </div>
 
@@ -30,24 +33,24 @@ export default function Footer() {
                     {/* Column 1: Menu & Policies */}
                     <div className="md:col-span-3 flex flex-col justify-between h-full">
                         <div>
-                            <h3 className="text-xl mb-8 border-b border-white block w-full pb-2">Menu</h3>
+                            <h3 className="text-xl mb-8 border-b border-white block w-full pb-2">{t("footer.menu")}</h3>
                             <ul className="space-y-2 text-lg text-gray-400">
                                 <li>
                                     <Link href="/services" className="group relative overflow-hidden block" style={{ height: '1.5em', lineHeight: '1.5em' }}>
-                                        <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full group-hover:text-white">Services</span>
-                                        <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full text-white">Services</span>
+                                        <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full group-hover:text-white">{t("footer.menu.services")}</span>
+                                        <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full text-white">{t("footer.menu.services")}</span>
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="#" className="group relative overflow-hidden block" style={{ height: '1.5em', lineHeight: '1.5em' }}>
-                                        <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full group-hover:text-white">About</span>
-                                        <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full text-white">About</span>
+                                    <Link href="/about" className="group relative overflow-hidden block" style={{ height: '1.5em', lineHeight: '1.5em' }}>
+                                        <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full group-hover:text-white">{t("footer.menu.about")}</span>
+                                        <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full text-white">{t("footer.menu.about")}</span>
                                     </Link>
                                 </li>
                                 <li>
                                     <Link href="/feedback" className="group relative overflow-hidden block" style={{ height: '1.5em', lineHeight: '1.5em' }}>
-                                        <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full group-hover:text-white">Feedback</span>
-                                        <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full text-white">Feedback</span>
+                                        <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full group-hover:text-white">{t("footer.menu.feedback")}</span>
+                                        <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full text-white">{t("footer.menu.feedback")}</span>
                                     </Link>
                                 </li>
                             </ul>
@@ -57,8 +60,8 @@ export default function Footer() {
                             <ul className="space-y-2 text-sm text-gray-500">
                                 <li>
                                     <Link href="/privacy" className="group relative overflow-hidden block" style={{ height: '1.4em', lineHeight: '1.4em' }}>
-                                        <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full group-hover:text-white">Privacy Policy</span>
-                                        <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full text-white">Privacy Policy</span>
+                                        <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full group-hover:text-white">{t("footer.privacy")}</span>
+                                        <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full text-white">{t("footer.privacy")}</span>
                                     </Link>
                                 </li>
                             </ul>
@@ -67,7 +70,7 @@ export default function Footer() {
 
                     {/* Column 2: Social */}
                     <div className="md:col-span-3">
-                        <h3 className="text-xl mb-8 border-b border-white block w-full pb-2">Social</h3>
+                        <h3 className="text-xl mb-8 border-b border-white block w-full pb-2">{t("footer.social")}</h3>
                         <ul className="space-y-2 text-lg text-gray-400">
                             <li>
                                 <Link href="#" className="group relative overflow-hidden block" style={{ height: '1.5em', lineHeight: '1.5em' }}>
@@ -92,18 +95,18 @@ export default function Footer() {
 
                     {/* Column 3: Newsletter (Spans 6) */}
                     <div className="md:col-span-6">
-                        <h3 className="text-xl mb-8 border-b border-white block w-full pb-2">Newsletter</h3>
-                        <p className="mb-8 text-gray-400">Subscribe to stay up to date with the latest news and projects.</p>
+                        <h3 className="text-xl mb-8 border-b border-white block w-full pb-2">{t("footer.newsletter")}</h3>
+                        <p className="mb-8 text-gray-400">{t("footer.newsletter.desc")}</p>
 
                         <form className="flex flex-col md:flex-row gap-4">
                             <input
                                 type="email"
-                                placeholder="Email address"
+                                placeholder={t("footer.email.placeholder")}
                                 suppressHydrationWarning
                                 className="w-full bg-transparent border-b border-white/30 py-4 text-white focus:outline-none focus:border-white transition-colors placeholder:text-gray-600"
                             />
                             <button type="submit" suppressHydrationWarning className="px-8 py-4 bg-white text-black font-bold uppercase tracking-wider hover:bg-gray-200 transition-colors">
-                                Subscribe
+                                {t("footer.subscribe")}
                             </button>
                         </form>
                     </div>
@@ -113,12 +116,12 @@ export default function Footer() {
                 {/* Bottom Row */}
                 <div className="flex flex-col md:flex-row justify-between items-end text-sm text-gray-500 pt-8 border-t border-white/10">
                     <button onClick={scrollToTop} suppressHydrationWarning className="font-bold text-white uppercase tracking-wider hover:opacity-70 transition-opacity mb-4 md:mb-0">
-                        To top
+                        {t("footer.toTop")}
                     </button>
 
                     <div className="flex gap-8">
-                        <span>istanbul & mogdisho</span>
-                        <span>&copy; 2026  Tarzan Groub</span>
+                        <span>{t("footer.location")}</span>
+                        <span>{t("footer.copyright")}</span>
                     </div>
                 </div>
 

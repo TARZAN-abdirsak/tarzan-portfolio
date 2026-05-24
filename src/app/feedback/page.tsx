@@ -5,10 +5,12 @@ import PixelPointHeader from "@/components/PixelPointHeader";
 import FeedbackGrid from "@/components/FeedbackGrid";
 import FeedbackForm from "@/components/FeedbackForm";
 import { useCursor } from "@/context/CursorContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { useState } from "react";
 
 export default function FeedbackPage() {
     const { showClick, resetCursor } = useCursor();
+    const { t } = useLanguage();
     const [showForm, setShowForm] = useState(false);
 
     return (
@@ -20,10 +22,10 @@ export default function FeedbackPage() {
                     {/* Header */}
                     <div className="mb-16 text-center">
                         <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-gray-900 mb-4">
-                            Feedback
+                            {t("feedback.title")}
                         </h1>
                         <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-                            Thoughts and experiences shared by people I&apos;ve worked with.
+                            {t("feedback.subtitle")}
                         </p>
                     </div>
 
@@ -35,7 +37,7 @@ export default function FeedbackPage() {
                             onMouseLeave={resetCursor}
                             className="px-8 py-4 bg-black text-white font-semibold rounded-full hover:bg-gray-800 transition-colors shadow-lg"
                         >
-                            {showForm ? "View Feedback" : "Leave Feedback"}
+                            {showForm ? t("feedback.viewBtn") : t("feedback.leaveBtn")}
                         </button>
                     </div>
 

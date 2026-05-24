@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
 // Email recipient (business owner)
-const BUSINESS_EMAIL = "abukarabdirsak@tarzan.software";
+const BUSINESS_EMAIL = "a.abdirsak1999@gmail.com";
 
 interface LeadRequest {
     name: string;

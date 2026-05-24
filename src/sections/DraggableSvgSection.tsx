@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect, useLayoutEffect } from "react";
 import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLanguage } from "@/context/LanguageContext";
 
 const PhysicsCanvas = dynamic(() => import("@/components/PhysicsCanvas"), {
     ssr: false,
@@ -34,6 +35,7 @@ const SKILL_ICONS = [
 ] as const;
 
 export default function DraggableSvgSection() {
+    const { t } = useLanguage();
     const containerRef = useRef<HTMLDivElement>(null);
     const triggerRef = useRef<HTMLElement>(null);
     const text1Ref = useRef<HTMLDivElement>(null);
@@ -194,56 +196,56 @@ export default function DraggableSvgSection() {
                     {/* First Text Group */}
                     <div ref={text1Ref} className="absolute top-1/2 -translate-y-1/2 left-0 w-full flex flex-col gap-6 origin-center">
                         <h2 className="text-5xl md:text-6xl font-serif tracking-tight leading-[1.1]">
-                            My <br />
-                            Tech <br />
-                            Stack
+                            {t("stack.1.title.line1")} <br />
+                            {t("stack.1.title.line2")} <br />
+                            {t("stack.1.title.line3")}
                         </h2>
                         <p className="text-lg text-black/60 max-w-xs" style={{ fontFamily: 'var(--font-space-mono)' }}>
-                            Tools I use daily to build scalable solutions.
+                            {t("stack.1.desc")}
                         </p>
                     </div>
 
                     {/* Second Text Group (Revealed on Scroll) */}
                     <div ref={text2Ref} className="absolute top-1/2 -translate-y-1/2 left-0 w-full flex flex-col gap-6 origin-center opacity-0">
                         <h2 className="text-5xl md:text-6xl font-serif tracking-tight leading-[1.1]">
-                            Go Ahead, <br />
-                            Play
+                            {t("stack.2.title.line1")} <br />
+                            {t("stack.2.title.line2")}
                         </h2>
                         <p className="text-lg text-black/60 max-w-xs" style={{ fontFamily: 'var(--font-space-mono)' }}>
-                            Drag the icons around. It&apos;s fun.
+                            {t("stack.2.desc")}
                         </p>
                     </div>
 
                     {/* Text 3 */}
                     <div ref={text3Ref} className="absolute top-1/2 -translate-y-1/2 left-0 w-full flex flex-col gap-6 origin-center opacity-0">
                         <h2 className="text-5xl md:text-6xl font-serif tracking-tight leading-[1.1]">
-                            Built for <br />
-                            Scale
+                            {t("stack.3.title.line1")} <br />
+                            {t("stack.3.title.line2")}
                         </h2>
                         <p className="text-lg text-black/60 max-w-xs" style={{ fontFamily: 'var(--font-space-mono)' }}>
-                            Cloud-native from day one.
+                            {t("stack.3.desc")}
                         </p>
                     </div>
 
                     {/* Text 4 */}
                     <div ref={text4Ref} className="absolute top-1/2 -translate-y-1/2 left-0 w-full flex flex-col gap-6 origin-center opacity-0">
                         <h2 className="text-5xl md:text-6xl font-serif tracking-tight leading-[1.1]">
-                            End to <br />
-                            End
+                            {t("stack.4.title.line1")} <br />
+                            {t("stack.4.title.line2")}
                         </h2>
                         <p className="text-lg text-black/60 max-w-xs" style={{ fontFamily: 'var(--font-space-mono)' }}>
-                            Frontend to backend, I do it all.
+                            {t("stack.4.desc")}
                         </p>
                     </div>
 
                     {/* Text 5 */}
                     <div ref={text5Ref} className="absolute top-1/2 -translate-y-1/2 left-0 w-full flex flex-col gap-6 origin-center opacity-0">
                         <h2 className="text-5xl md:text-6xl font-serif tracking-tight leading-[1.1]">
-                            Ready When <br />
-                            You Are
+                            {t("stack.5.title.line1")} <br />
+                            {t("stack.5.title.line2")}
                         </h2>
                         <p className="text-lg text-black/60 max-w-xs" style={{ fontFamily: 'var(--font-space-mono)' }}>
-                            Let&apos;s build something amazing.
+                            {t("stack.5.desc")}
                         </p>
                     </div>
                 </div>

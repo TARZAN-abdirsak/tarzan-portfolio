@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useCursor } from '@/context/CursorContext';
+import { useLanguage } from '@/context/LanguageContext';
 import type { PhysicsItem } from '@/components/InfluenceCanvas';
 
 const InfluenceCanvas = dynamic(() => import('@/components/InfluenceCanvas'), {
@@ -38,13 +39,28 @@ import cricksImg from '@/assets/our-production/cricks_lap.png';
 import marlabiImg from '@/assets/our-production/murlabi.png';
 import soundexperienceImg from '@/assets/our-production/Sound-Experience.png';
 
-const PROJECTS = [
-    { id: 1, name: 'Marlupi', role: 'Academy', image: marlabiImg, width: '400px', height: '200px', link: 'https://marlupi.id/' },
-    { id: 2, name: 'Sound Experience', role: 'Event', image: soundexperienceImg, width: '400px', height: '200px', link: 'https://soundexperience.ircamamplify.com/' },
-    { id: 3, name: 'ZoneTech', role: 'Affiliate page', image: zonetechImg, width: '400px', height: '200px', link: 'https://zon-tech.com/' },
-    { id: 4, name: 'Cricks Lap', role: 'Sports Analytics', image: cricksImg, width: '400px', height: '200px', link: 'https://crickslab.com/' },
-    { id: 5, name: 'Febc', role: 'Sports Analytics', image: cricksImg, video: '/videos/febc.webm', width: '400px', height: '200px', link: 'https://crickslab.com/' },
+type ProjectRoleKey =
+    | 'projects.marlupi.role'
+    | 'projects.soundExperience.role'
+    | 'projects.zonetech.role'
+    | 'projects.cricksLap.role'
+    | 'projects.febc.role';
 
+const PROJECTS: Array<{
+    id: number;
+    name: string;
+    roleKey: ProjectRoleKey;
+    image: typeof marlabiImg;
+    video?: string;
+    width: string;
+    height: string;
+    link: string;
+}> = [
+    { id: 1, name: 'Marlupi', roleKey: 'projects.marlupi.role', image: marlabiImg, width: '400px', height: '200px', link: 'https://marlupi.id/' },
+    { id: 2, name: 'Sound Experience', roleKey: 'projects.soundExperience.role', image: soundexperienceImg, width: '400px', height: '200px', link: 'https://soundexperience.ircamamplify.com/' },
+    { id: 3, name: 'ZoneTech', roleKey: 'projects.zonetech.role', image: zonetechImg, width: '400px', height: '200px', link: 'https://zon-tech.com/' },
+    { id: 4, name: 'Cricks Lap', roleKey: 'projects.cricksLap.role', image: cricksImg, width: '400px', height: '200px', link: 'https://crickslab.com/' },
+    { id: 5, name: 'Febc', roleKey: 'projects.febc.role', image: cricksImg, video: '/videos/febc.webm', width: '400px', height: '200px', link: 'https://crickslab.com/' },
 ];
 
 export default function HorizontalScrollSection() {
@@ -53,6 +69,7 @@ export default function HorizontalScrollSection() {
     const wrapperRef = useRef<HTMLDivElement>(null);
     const physicsContainerRef = useRef<HTMLDivElement>(null);
     const { setCursor, resetCursor } = useCursor();
+    const { t } = useLanguage();
 
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const [dropped, setDropped] = useState(false);
@@ -194,11 +211,11 @@ export default function HorizontalScrollSection() {
                 <div className="relative w-screen h-[100dvh] flex-shrink-0 bg-[#f9f9f9] overflow-hidden">
                     <div className="absolute top-20 left-8 md:left-20 z-10 pointer-events-none">
                         <h2 className="text-7xl md:text-9xl font-bold tracking-tighter leading-[0.9] text-black">
-                            Projects <br />
-                            I&apos;ve Built
+                            {t("projects.title.line1")} <br />
+                            {t("projects.title.line2")}
                         </h2>
                         <p className="mt-40 md:mt-8 max-w-lg text-lg text-gray-700 font-medium leading-relaxed" style={{ fontFamily: 'var(--font-space-mono)' }}>
-                            10+ apps shipped. From fintech to e-commerce, each project taught me something new.
+                            {t("projects.subtitle")}
                         </p>
                     </div>
 
@@ -221,8 +238,8 @@ export default function HorizontalScrollSection() {
                         {/* Header */}
                         <div className="text-center mb-3 md:mb-8 flex-shrink-0">
                             <h3 className="text-2xl md:text-6xl font-normal leading-[0.9] tracking-tight text-neutral-900">
-                                <span className="block font-medium mb-1">(say hi)</span>
-                                <span className="block font-medium">to my production</span>
+                                <span className="block font-medium mb-1">{t("production.sayHi")}</span>
+                                <span className="block font-medium">{t("production.toMyProduction")}</span>
                             </h3>
                         </div>
 
@@ -281,7 +298,7 @@ export default function HorizontalScrollSection() {
                                                     </span>
                                                 </div>
                                                 <span className="text-xs text-neutral-400 font-mono mt-0.5">
-                                                    {member.role}
+                                                    {t(member.roleKey)}
                                                 </span>
                                             </div>
 
@@ -306,7 +323,7 @@ export default function HorizontalScrollSection() {
                                             <div className="hidden md:flex items-center gap-1">
                                                 <span className="text-sm font-mono text-neutral-400 font-light">(</span>
                                                 <span className={`text-base font-medium transition-all ${isActive ? 'border-b border-black text-black' : 'text-neutral-400'}`}>
-                                                    {member.role}
+                                                    {t(member.roleKey)}
                                                 </span>
                                                 <span className="text-sm font-mono text-neutral-400 font-light">)</span>
                                             </div>

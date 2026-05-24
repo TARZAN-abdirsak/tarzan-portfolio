@@ -4,10 +4,12 @@ import React, { useRef, useCallback } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLanguage } from "@/context/LanguageContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function VideoScrollSection() {
+    const { t } = useLanguage();
     const sectionRef = useRef<HTMLDivElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
     const videoContainerRef = useRef<HTMLDivElement>(null);
@@ -114,17 +116,17 @@ export default function VideoScrollSection() {
                 className="absolute inset-0 flex flex-col items-center justify-center z-10 opacity-0"
             >
                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-semibold text-center tracking-tight leading-[1] text-inherit">
-                    Production-Driven <br />
-                    <span className="font-light italic text-[#F22F5D] mx-2">Software </span>Systems <br />
-                    For
+                    {t("video.line1")} <br />
+                    <span className="font-light italic text-[#F22F5D] mx-2">{t("video.line2.soft")} </span>{t("video.line2.systems")} <br />
+                    {t("video.line3")}
                 </h2>
 
                 {/* Spacer for where the video resides */}
                 <div className="h-[240px] w-full" />
 
                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-semibold text-center tracking-tight leading-[1] text-inherit mt-4">
-                    Real-World <br />
-                    Scale
+                    {t("video.line4a")} <br />
+                    {t("video.line4b")}
                 </h2>
             </div>
 

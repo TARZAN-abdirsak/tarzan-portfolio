@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
+import { useLanguage } from "@/context/LanguageContext";
 
 // Import new generated assets
 import interfaceImg from "@/assets/services/interface.png";
@@ -11,47 +12,48 @@ import commerceImg from "@/assets/services_images/e commerce.png";
 import mobileImg from "@/assets/services_images/mobil applictions.png";
 import aiAgentImg from "@/assets/services_images/AI Agnet.png";
 
-const services = [
-    {
-        id: "01",
-        title: "DIGITAL SYSTEMS",
-        desc: "Building robust digital infrastructures that combine performance, scalability, and modern engineering standards. We create secure and efficient systems tailored to business growth.",
-        features: ["/Enterprise System Architecture", " / Scalable Backend Systems",],
-        image: interfaceImg
-    },
-    {
-        id: "02",
-        title: "ENTERPRISE SYSTEMS",
-        desc: "Large-scale systems engineered for operational efficiency.",
-        features: ["/HOSPITAL MANAGEMENT", "/CONSTRUCTION SYSTEMS", "/ERP SOLUTIONS", "/BUSINESS PLATFORMS", "/CUSTOM SOFTWARE"],
-        image: hospitalImg
-    },
-    {
-        id: "03",
-        title: "E-COMMERCE & PLATFORMS",
-        desc: "Developing secure and scalable digital commerce ecosystems designed for growth",
-        features: ["ONLINE STORES", "/PAYMENT INTEGRATION", "/PRODUCT SYSTEMS", "/CUSTOM DASHBOARDS", "/SCALABLE ARCHITECTURE"],
-        image: commerceImg
-    },
-    {
-        id: "04",
-        title: "APPLICATION DEVELOPMENT",
-        desc: "Building scalable applications designed for performance, usability, and long-term growth.",
-        features: ["/MOBILE APPLICATIONS", "/WEB APPLICATIONS", "/DESKTOP APPLICATIONS", "/PLATFORM INTEGRATION", "/PRODUCT ENGINEERING "],
-        image: mobileImg
-    },
-    {
-        id: "05",
-        title: "AI & INTEGRATION",
-        desc: "Engineered intelligence for modern systems.",
-        features: ["/BUSINESS AI INTEGRATION", "/AUTOMATION ENGINEERING", "/DATA ARCHITECTURE", "/PREDICTIVE SYSTEMS",],
-        image: aiAgentImg
-    },
-];
-
 export default function ServicesSection() {
+    const { t } = useLanguage();
     const containerRef = useRef<HTMLDivElement>(null);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+    const services = [
+        {
+            id: "01",
+            title: t("services.1.title"),
+            desc: t("services.1.desc"),
+            features: [t("services.1.feat1"), t("services.1.feat2")],
+            image: interfaceImg
+        },
+        {
+            id: "02",
+            title: t("services.2.title"),
+            desc: t("services.2.desc"),
+            features: [t("services.2.feat1"), t("services.2.feat2"), t("services.2.feat3"), t("services.2.feat4"), t("services.2.feat5")],
+            image: hospitalImg
+        },
+        {
+            id: "03",
+            title: t("services.3.title"),
+            desc: t("services.3.desc"),
+            features: [t("services.3.feat1"), t("services.3.feat2"), t("services.3.feat3"), t("services.3.feat4"), t("services.3.feat5")],
+            image: commerceImg
+        },
+        {
+            id: "04",
+            title: t("services.4.title"),
+            desc: t("services.4.desc"),
+            features: [t("services.4.feat1"), t("services.4.feat2"), t("services.4.feat3"), t("services.4.feat4"), t("services.4.feat5")],
+            image: mobileImg
+        },
+        {
+            id: "05",
+            title: t("services.5.title"),
+            desc: t("services.5.desc"),
+            features: [t("services.5.feat1"), t("services.5.feat2"), t("services.5.feat3"), t("services.5.feat4")],
+            image: aiAgentImg
+        },
+    ];
 
     useEffect(() => {
         if (hoveredIndex !== null) {
@@ -93,7 +95,7 @@ export default function ServicesSection() {
                 {/* Top Section Header */}
                 <div className="flex justify-between items-end mb-6 px-2">
                     <h1 className="text-[5vw] leading-[0.8] font-bold tracking-tighter">
-                        CAPABILITIES
+                        {t("services.heading")}
                     </h1>
 
                 </div>

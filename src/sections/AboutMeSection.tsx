@@ -1,14 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-import ProfileImage from "@/assets/images/profile.jpg";
+import { useLanguage } from "@/context/LanguageContext";
 
 
 export default function AboutMeSection() {
+    const { t } = useLanguage();
     const sectionRef = useRef<HTMLDivElement>(null);
     const textRef = useRef<HTMLDivElement>(null);
     const noteRef = useRef<HTMLDivElement>(null);
@@ -46,7 +45,7 @@ export default function AboutMeSection() {
     const [timeLeft, setTimeLeft] = useState("");
 
     // Fixed UTC Launch Date - Set this to your actual launch date
-    const LAUNCH_DATE_UTC = "2026-05-01T12:00:00Z";
+    const LAUNCH_DATE_UTC = "2026-05-31T12:00:00Z";
 
     useEffect(() => {
         const targetTime = new Date(LAUNCH_DATE_UTC).getTime();
@@ -61,9 +60,9 @@ export default function AboutMeSection() {
                 const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-                return `⏳ Launch in ${days}d ${hours}h ${minutes}m ${seconds}s`;
+                return `⏳ ${t("about.launch.in")} ${days}d ${hours}h ${minutes}m ${seconds}s`;
             } else {
-                return "🚀 Project is live";
+                return t("about.launch.live");
             }
         };
 
@@ -76,7 +75,7 @@ export default function AboutMeSection() {
         }, 1000);
 
         return () => clearInterval(timer);
-    }, []);
+    }, [t]);
 
     return (
         <section id="about-me" ref={sectionRef} className="relative w-full h-full bg-[#f9f9f9] flex flex-col justify-center px-6 md:px-12 lg:px-24 overflow-hidden">
@@ -87,21 +86,21 @@ export default function AboutMeSection() {
                 <div ref={textRef} className="lg:col-span-7 flex flex-col gap-6 lg:gap-8 z-10 justify-center h-full order-2 lg:order-1 pb-12 lg:pb-0">
                     <div className="text-[2rem] sm:text-4xl md:text-5xl lg:text-[4.5rem] leading-[1.1] font-black tracking-tight text-neutral-900 font-[family-name:var(--font-geist-sans)] text-center lg:text-left">
                         <span className="block">
-                            Think For <span className="relative inline-block px-1 lg:px-2">
+                            {t("about.line1.pre")} <span className="relative inline-block px-1 lg:px-2">
                                 <span className="absolute inset-0 bg-[#FFF9C4] -z-10 rounded-sm transform -rotate-1 skew-x-3 h-[90%] top-[5%]"></span>
-                                Users.
+                                {t("about.line1.hi")}
                             </span>
                         </span>
                         <span className="block mt-1 lg:mt-2">
-                            Work With <span className="relative inline-block px-1 lg:px-2">
+                            {t("about.line2.pre")} <span className="relative inline-block px-1 lg:px-2">
                                 <span className="absolute inset-0 bg-[#E0F7FA] -z-10 rounded-sm transform rotate-1 skew-x-[-3deg] h-[90%] top-[5%]"></span>
-                                Passion.
+                                {t("about.line2.hi")}
                             </span>
                         </span>
                         <span className="block mt-1 lg:mt-2">
-                            Value What<span className="relative inline-block px-1 lg:px-2">
+                            {t("about.line3.pre")}<span className="relative inline-block px-1 lg:px-2">
                                 <span className="absolute inset-0 bg-[#FFEBEE] -z-10 rounded-sm transform -rotate-2 h-[90%] top-[5%]"></span>
-                                Matter .
+                                {t("about.line3.hi")}
                             </span>
                         </span>
                     </div>
@@ -109,12 +108,12 @@ export default function AboutMeSection() {
                     <div className="mt-4 lg:mt-1 xl:mt-16 text-center lg:text-left">
                         {/* Launch Countdown */}
                         <div className="mb-2 text-xs lg:text-sm font-mono font-bold text-neutral-500 uppercase tracking-widest">
-                            {timeLeft || "Loading..."}
+                            {timeLeft || t("about.launch.loading")}
                         </div>
 
-                        <h3 className="text-sm lg:text-base font-bold text-neutral-900 mb-2 lg:mb-4">Current role</h3>
+                        <h3 className="text-sm lg:text-base font-bold text-neutral-900 mb-2 lg:mb-4">{t("about.currentRole")}</h3>
                         <p className="text-base sm:text-lg md:text-xl text-neutral-600 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                            Currently focused on building and scaling Fiiri, a super app that brings chat, payments, and digital services into one platform.
+                            {t("about.currentRole.desc")}
                         </p>
                     </div>
                 </div>
@@ -134,19 +133,11 @@ export default function AboutMeSection() {
 
                         {/* Avatar with name */}
                         <div className="flex flex-col lg:flex-row items-center gap-3 lg:gap-4 mb-4 text-center lg:text-right">
-                            <div className="w-20 h-20 lg:w-14 lg:h-14 rounded-full overflow-hidden border-2 border-white shadow-md relative order-1">
-                                <Image
-                                    src={ProfileImage}
-                                    alt="Abukar Abdirsak Gutale"
-                                    fill
-                                    className="object-cover object-top"
-                                />
-                            </div>
                             <div
-                                className="font-[family-name:var(--font-caveat)] text-xl lg:text-2xl font-black text-neutral-800 order-2"
+                                className="font-[family-name:var(--font-caveat)] text-xl lg:text-2xl font-black text-neutral-800"
                                 style={{ textShadow: "0.5px 0 0 currentColor" }}
                             >
-                                Hi my name is Abukar Abdirsak Gutale
+                                {t("about.greeting")}
                             </div>
                         </div>
 
@@ -155,7 +146,7 @@ export default function AboutMeSection() {
                             className="font-[family-name:var(--font-caveat)] text-2xl sm:text-3xl md:text-4xl text-neutral-800 leading-tight tracking-wide max-w-xs sm:max-w-sm font-black text-center lg:text-right"
                             style={{ textShadow: "0.5px 0 0 currentColor" }}
                         >
-                            I enjoy solving problems and turning complex ideas into clear, reliable systems. I care about quality, clarity, and making things work the right way.
+                            {t("about.handwritten")}
                         </div>
                     </div>
 

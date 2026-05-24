@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLanguage } from "@/context/LanguageContext";
 import fiiriImg from "@/assets/our-production/suitle-concert.png";
 import customInteractionsImg from '@/assets/our-production/norde.png';
 import performanceFirstImg from '@/assets/our-production/zonetech-landing.png';
@@ -22,6 +23,7 @@ if (typeof window !== 'undefined') {
 }
 
 export default function FeatureSection() {
+    const { t } = useLanguage();
     const sectionRef = useRef<HTMLElement>(null);
     const imageContainerRef = useRef<HTMLDivElement>(null);
     const curtainRef = useRef<HTMLDivElement>(null);
@@ -29,36 +31,36 @@ export default function FeatureSection() {
     const [activeIndex, setActiveIndex] = useState(0);
     const [visibleImageIndex, setVisibleImageIndex] = useState(0);
 
-    // Feature Text Data
+    // Feature Text Data (uses i18n keys)
     const features = [
         {
-            title: "AI Agents for Customer Support",
-            desc: "We build AI assistants that handle customer questions 24/7, automate repetitive tasks, and escalate complex cases to your team using your business knowledge and tone.",
-            list: ["24/7 Customer Care", "Order / FAQ Automation", "Human Handoff + Reports"],
+            title: t("feature.1.title"),
+            desc: t("feature.1.desc"),
+            list: [t("feature.1.item1"), t("feature.1.item2"), t("feature.1.item3")],
             image: AIagent
         },
         {
-            title: "Seamless System Integration",
-            desc: "We connect your existing tools, platforms, and databases into one unified system ensuring everything works together smoothly, securely, and at scale.",
-            list: ["APIs & Third-Party Integrations", "CRM, Payments, and Internal Tools", "Secure & Scalable Architecture"],
+            title: t("feature.2.title"),
+            desc: t("feature.2.desc"),
+            list: [t("feature.2.item1"), t("feature.2.item2"), t("feature.2.item3")],
             image: system
         },
         {
-            title: "Smart Process Automation",
-            desc: "We automate repetitive tasks and business processes to reduce manual work, improve efficiency, and let your team focus on what truly matters.",
-            list: ["Workflow & Task Automation", "Reduced Manual Errors", "Faster Operations at Scale"],
+            title: t("feature.3.title"),
+            desc: t("feature.3.desc"),
+            list: [t("feature.3.item1"), t("feature.3.item2"), t("feature.3.item3")],
             image: automation
         },
         {
-            title: "User-Centered Product Experience",
-            desc: "We design intuitive, clean, and scalable interfaces that make complex systems easy to use ensuring users enjoy every interaction with your product.",
-            list: ["Intuitive & Clean Interfaces", "Smooth User Flows", "Designed for Real Users"],
+            title: t("feature.4.title"),
+            desc: t("feature.4.desc"),
+            list: [t("feature.4.item1"), t("feature.4.item2"), t("feature.4.item3")],
             image: product
         },
         {
-            title: "Mobile App Production",
-            desc: "We design and produce mobile applications from concept to launch focused on usability, performance, and real user needs across iOS and Android platforms.",
-            list: ["End-to-End App Development", "User-Centered Mobile Design", "iOS & Android Ready"],
+            title: t("feature.5.title"),
+            desc: t("feature.5.desc"),
+            list: [t("feature.5.item1"), t("feature.5.item2"), t("feature.5.item3")],
             image: mopileiamges
         }
     ];

@@ -200,87 +200,99 @@ export default function InfluenceCanvas({ width = 800, height = 600, items = [],
         bodiesRef.current = bodies;
         Composite.add(world, bodies);
 
+        // Detect mobile/touch device
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-        // Mouse control - with proper pixel ratio handling
-        const mouse = Mouse.create(canvas);
+        let mouseConstraint: Matter.MouseConstraint | null = null;
 
-        // Fix mouse offset for proper coordinate mapping
-        Mouse.setOffset(mouse, { x: 0, y: 0 });
-        Mouse.setScale(mouse, { x: 1, y: 1 });
+        // Only add mouse/drag interaction on desktop (non-touch)
+        if (!isTouchDevice) {
+            // Mouse control - with proper pixel ratio handling
+            const mouse = Mouse.create(canvas);
 
-        // Allow page scrolling - remove Matter.js wheel event capture
-        const wheelHandler = (mouse as any).mousewheel;
-        if (wheelHandler) {
-            canvas.removeEventListener('wheel', wheelHandler);
-            canvas.removeEventListener('mousewheel', wheelHandler);
-            canvas.removeEventListener('DOMMouseScroll', wheelHandler);
-        }
+            // Fix mouse offset for proper coordinate mapping
+            Mouse.setOffset(mouse, { x: 0, y: 0 });
+            Mouse.setScale(mouse, { x: 1, y: 1 });
 
-        const mouseConstraint = MouseConstraint.create(engine, {
-            mouse: mouse,
-            constraint: {
-                stiffness: 0.8,
-                damping: 0.1,
-                render: { visible: false }
-            },
-            collisionFilter: { mask: 0x0001 }
-        });
-        Composite.add(world, mouseConstraint);
-        render.mouse = mouse;
-
-        // Improved grab detection
-        const handleMouseDown = (e: MouseEvent) => {
-            const rect = canvas.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
-            const mousePoint = { x: mouseX, y: mouseY };
-
-            const bodiesAtPoint = Query.point(bodies, mousePoint);
-            let targetBody: Matter.Body | null = null;
-
-            if (bodiesAtPoint.length > 0) {
-                targetBody = bodiesAtPoint[0];
-            } else {
-                let closestDistance = Infinity;
-                bodies.forEach(body => {
-                    const dx = body.position.x - mouseX;
-                    const dy = body.position.y - mouseY;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    const bodyGrabRadius = (body as any).grabRadius || 60;
-                    if (distance < bodyGrabRadius && distance < closestDistance) {
-                        closestDistance = distance;
-                        targetBody = body;
-                    }
-                });
+            // Allow page scrolling - remove Matter.js wheel event capture
+            const wheelHandler = (mouse as any).mousewheel;
+            if (wheelHandler) {
+                canvas.removeEventListener('wheel', wheelHandler);
+                canvas.removeEventListener('mousewheel', wheelHandler);
+                canvas.removeEventListener('DOMMouseScroll', wheelHandler);
             }
 
+            mouseConstraint = MouseConstraint.create(engine, {
+                mouse: mouse,
+                constraint: {
+                    stiffness: 0.8,
+                    damping: 0.1,
+                    render: { visible: false }
+                },
+                collisionFilter: { mask: 0x0001 }
+            });
+            Composite.add(world, mouseConstraint);
+            render.mouse = mouse;
 
-            if (targetBody) {
-                // If object is near floor, nudge it toward mouse for easier grab
-                const floorThreshold = height - 100;
-                if (targetBody.position.y > floorThreshold) {
-                    const moveStrength = 1.0;
-                    Body.setPosition(targetBody, {
-                        x: targetBody.position.x + (mouseX - targetBody.position.x) * moveStrength,
-                        y: targetBody.position.y + (mouseY - targetBody.position.y) * moveStrength
+            // Improved grab detection
+            const handleMouseDown = (e: MouseEvent) => {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                const mousePoint = { x: mouseX, y: mouseY };
+
+                const bodiesAtPoint = Query.point(bodies, mousePoint);
+                let targetBody: Matter.Body | null = null;
+
+                if (bodiesAtPoint.length > 0) {
+                    targetBody = bodiesAtPoint[0];
+                } else {
+                    let closestDistance = Infinity;
+                    bodies.forEach(body => {
+                        const dx = body.position.x - mouseX;
+                        const dy = body.position.y - mouseY;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        const bodyGrabRadius = (body as any).grabRadius || 60;
+                        if (distance < bodyGrabRadius && distance < closestDistance) {
+                            closestDistance = distance;
+                            targetBody = body;
+                        }
                     });
                 }
-                Body.setVelocity(targetBody, { x: 0, y: 0 });
-                Body.setAngularVelocity(targetBody, 0);
-            }
-        };
 
-        canvas.addEventListener('mousedown', handleMouseDown);
+                if (targetBody) {
+                    // If object is near floor, nudge it toward mouse for easier grab
+                    const floorThreshold = height - 100;
+                    if (targetBody.position.y > floorThreshold) {
+                        const moveStrength = 1.0;
+                        Body.setPosition(targetBody, {
+                            x: targetBody.position.x + (mouseX - targetBody.position.x) * moveStrength,
+                            y: targetBody.position.y + (mouseY - targetBody.position.y) * moveStrength
+                        });
+                    }
+                    Body.setVelocity(targetBody, { x: 0, y: 0 });
+                    Body.setAngularVelocity(targetBody, 0);
+                }
+            };
 
-        // Custom wheel handler - allow scroll when not dragging
-        const handleWheel = (e: WheelEvent) => {
-            // Only prevent scroll if actively dragging a body
-            if (mouseConstraint.body) {
-                e.preventDefault();
-            }
-            // Otherwise let the scroll happen naturally
-        };
-        canvas.addEventListener('wheel', handleWheel, { passive: false });
+            canvas.addEventListener('mousedown', handleMouseDown);
+
+            // Custom wheel handler - allow scroll when not dragging
+            const handleWheel = (e: WheelEvent) => {
+                if (mouseConstraint && mouseConstraint.body) {
+                    e.preventDefault();
+                }
+            };
+            canvas.addEventListener('wheel', handleWheel, { passive: false });
+
+            // Store cleanup refs
+            (canvas as any)._handleMouseDown = handleMouseDown;
+            (canvas as any)._handleWheel = handleWheel;
+        } else {
+            // Mobile: disable all touch interaction on canvas
+            canvas.style.pointerEvents = 'none';
+            canvas.style.touchAction = 'auto';
+        }
 
         // Custom rendering loop
         Events.on(render, 'afterRender', function () {
@@ -300,7 +312,6 @@ export default function InfluenceCanvas({ width = 800, height = 600, items = [],
                 // --- INFLUENCE MODE RENDERING ---
                 // Draw Text inside the shape
                 context.fillStyle = item.textColor || '#FFFFFF';
-                // Font size depends on shape size roughly, or custom override
                 const fontSize = item.fontSize || (item.type === 'pill' ? 20 : 18);
                 context.font = `bold ${fontSize}px sans-serif`;
                 context.textAlign = 'center';
@@ -331,8 +342,12 @@ export default function InfluenceCanvas({ width = 800, height = 600, items = [],
 
         // Cleanup
         return () => {
-            canvas.removeEventListener('mousedown', handleMouseDown);
-            canvas.removeEventListener('wheel', handleWheel);
+            if ((canvas as any)._handleMouseDown) {
+                canvas.removeEventListener('mousedown', (canvas as any)._handleMouseDown);
+            }
+            if ((canvas as any)._handleWheel) {
+                canvas.removeEventListener('wheel', (canvas as any)._handleWheel);
+            }
             if (runnerRef.current) Runner.stop(runnerRef.current);
             if (renderRef.current) Render.stop(renderRef.current);
             if (engineRef.current) Engine.clear(engineRef.current);

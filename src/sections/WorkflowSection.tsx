@@ -1,13 +1,15 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { useLanguage } from "@/context/LanguageContext";
+import type { TranslationKey } from "@/i18n/translations";
 
 type NodeType = 'black' | 'green';
 
 interface WorkflowNode {
     id: string;
-    title: string;
-    items: string[];
+    titleKey: TranslationKey;
+    itemKeys: TranslationKey[];
     type: NodeType;
     x: number;
     y: number;
@@ -22,48 +24,48 @@ interface Connection {
 const INITIAL_NODES: WorkflowNode[] = [
     {
         id: "discovery",
-        title: "DISCOVERY",
-        items: ["Creative Brief", "Brand Research", "Mood Boards"],
+        titleKey: "workflow.discovery.title",
+        itemKeys: ["workflow.discovery.1", "workflow.discovery.2", "workflow.discovery.3"],
         type: "green",
         x: 50,
         y: 250
     },
     {
         id: "concept",
-        title: "CONCEPT",
-        items: ["Visual Direction", "Art Direction", "Storyboarding"],
+        titleKey: "workflow.concept.title",
+        itemKeys: ["workflow.concept.1", "workflow.concept.2", "workflow.concept.3"],
         type: "black",
         x: 50,
         y: 50
     },
     {
         id: "design",
-        title: "DESIGN",
-        items: ["UI/UX Craft", "Motion Design", "Interaction Design"],
+        titleKey: "workflow.design.title",
+        itemKeys: ["workflow.design.1", "workflow.design.2", "workflow.design.3"],
         type: "green",
         x: 450,
         y: 250
     },
     {
         id: "develop",
-        title: "DEVELOP",
-        items: ["Creative Coding", "WebGL & 3D", "Animations"],
+        titleKey: "workflow.develop.title",
+        itemKeys: ["workflow.develop.1", "workflow.develop.2", "workflow.develop.3"],
         type: "black",
         x: 450,
         y: 550
     },
     {
         id: "polish",
-        title: "POLISH",
-        items: ["Micro-interactions", "Performance", "Pixel Perfect"],
+        titleKey: "workflow.polish.title",
+        itemKeys: ["workflow.polish.1", "workflow.polish.2", "workflow.polish.3"],
         type: "green",
         x: 850,
         y: 250
     },
     {
         id: "launch",
-        title: "LAUNCH",
-        items: ["Go Live", "Case Study", "Awards Submit"],
+        titleKey: "workflow.launch.title",
+        itemKeys: ["workflow.launch.1", "workflow.launch.2", "workflow.launch.3"],
         type: "black",
         x: 1200,
         y: 250
@@ -80,6 +82,7 @@ const CONNECTIONS: Connection[] = [
 ];
 
 export default function WorkflowSection() {
+    const { t } = useLanguage();
     const containerRef = useRef<HTMLDivElement>(null);
     const [nodes, setNodes] = useState<WorkflowNode[]>(INITIAL_NODES);
     const [draggingId, setDraggingId] = useState<string | null>(null);
@@ -291,14 +294,14 @@ export default function WorkflowSection() {
                     <div className={`absolute -bottom-2 left-1/2 w-4 h-4 rounded-full bg-white border-4 border-[#f9f9f9] -translate-x-1/2 transition-opacity duration-200`} />
 
                     <h3 className="font-bold text-xl tracking-wide uppercase font-sans mb-1">
-                        {node.title}
+                        {t(node.titleKey)}
                     </h3>
 
                     <ul className="space-y-3">
-                        {node.items.map((item, idx) => (
+                        {node.itemKeys.map((itemKey, idx) => (
                             <li key={idx} className="flex items-center gap-3 text-sm font-medium opacity-90">
                                 <span className="w-2 h-2 rounded-full bg-current shrink-0" />
-                                {item}
+                                {t(itemKey)}
                             </li>
                         ))}
                     </ul>

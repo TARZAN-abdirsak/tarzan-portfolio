@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
         message: body.message,
         rating: body.rating || null,
         context: body.context || "General",
-        status: "pending",
+        status: "published",
         createdAt: FieldValue.serverTimestamp(),
     });
 
@@ -47,6 +47,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
         success: true,
         id: doc.id,
-        message: "Thank you! Your feedback has been submitted for review."
+        message: "Thank you! Your feedback has been published."
     });
 }

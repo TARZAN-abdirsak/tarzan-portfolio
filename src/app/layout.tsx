@@ -6,6 +6,7 @@ import "./globals.css";
 import ClientComponentsWrapper from "@/components/ClientComponentsWrapper";
 import { CursorProvider } from "@/context/CursorContext";
 import { ChatProvider } from "@/context/ChatContext";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 // Only keep essential fonts - reduced from 5 to 2 families
 const geistSans = Geist({
@@ -81,12 +82,14 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${geistSans.variable} ${chonburi.variable} ${poppins.variable} ${caveat.variable} antialiased`}
       >
-        <CursorProvider>
-          <ChatProvider>
-            <ClientComponentsWrapper />
-            {children}
-          </ChatProvider>
-        </CursorProvider>
+        <LanguageProvider>
+          <CursorProvider>
+            <ChatProvider>
+              <ClientComponentsWrapper />
+              {children}
+            </ChatProvider>
+          </CursorProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

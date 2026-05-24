@@ -4,12 +4,14 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLanguage } from '@/context/LanguageContext';
 
 import profileImg from '@/assets/images/profile.jpg';
 import womanImg from '@/assets/images/trainer_woman.png';
 import yaxyeImg from '@/assets/images/yaxye .jpeg';
 
 export default function BusinessSystemsAndAiSection() {
+    const { t } = useLanguage();
     const sectionRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
     const visualsRef = useRef<HTMLDivElement>(null);
@@ -163,16 +165,16 @@ export default function BusinessSystemsAndAiSection() {
                     {/* Top Group: Heading, Text, CTA */}
                     <div className="flex flex-col items-start w-full">
                         <h2 className="text-5xl md:text-7xl font-bold tracking-tighter leading-[0.95] mb-8 flex flex-wrap">
-                            {splitText("you are not")}
-                            <span className="relative inline-block px-3 py-1 bg-[#32CD32] text-black transform rounded ml-2 text-word">Alone</span>
+                            {splitText(t("business.headline.part1"))}
+                            <span className="relative inline-block px-3 py-1 bg-[#32CD32] text-black transform rounded ml-2 text-word">{t("business.headline.alone")}</span>
                         </h2>
 
                         <div className="space-y-6 max-w-lg text-lg text-neutral-600 font-medium leading-relaxed">
                             <p>
-                                {splitText("Not sure what to build yet? That's okay. We analyze your idea, your market, and your goals, then recommend the right system structure scalable, practical, and designed for growth. No pressure. No upfront cost. Just clarity.")}
+                                {splitText(t("business.body1"))}
                             </p>
                             <p>
-                                {splitText("Beyond code, we integrate AI to automate your workflows, analyze data, and create smarter customer experiences.")}
+                                {splitText(t("business.body2"))}
                             </p>
                         </div>
 
@@ -184,7 +186,7 @@ export default function BusinessSystemsAndAiSection() {
                                 </svg>
                                 <input
                                     type="email"
-                                    placeholder="Enter your email"
+                                    placeholder={t("business.email.placeholder")}
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
@@ -203,8 +205,8 @@ export default function BusinessSystemsAndAiSection() {
                                         </svg>
                                     ) : (
                                         <>
-                                            <span className="text-sm font-bold tracking-tight hidden sm:inline">Free Consultation</span>
-                                            <span className="text-sm font-bold tracking-tight sm:hidden">Send</span>
+                                            <span className="text-sm font-bold tracking-tight hidden sm:inline">{t("business.cta.full")}</span>
+                                            <span className="text-sm font-bold tracking-tight sm:hidden">{t("business.cta.short")}</span>
                                             <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                                             </svg>
@@ -218,7 +220,7 @@ export default function BusinessSystemsAndAiSection() {
                                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-                                    We&apos;ll be in touch soon!
+                                    {t("business.success")}
                                 </p>
                             )}
                             {submitStatus === 'error' && (
@@ -226,7 +228,7 @@ export default function BusinessSystemsAndAiSection() {
                                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                                     </svg>
-                                    Something went wrong. Please try again.
+                                    {t("business.error")}
                                 </p>
                             )}
                         </form>
@@ -248,8 +250,8 @@ export default function BusinessSystemsAndAiSection() {
                             </div>
                         </div>
                         <div className="text-sm font-medium text-neutral-500">
-                            <span className="font-bold text-black text-base">You team is here?</span> <br />
-                            Real people. Real guidance. Real solutions.
+                            <span className="font-bold text-black text-base">{t("business.proof.title")}</span> <br />
+                            {t("business.proof.subtitle")}
                         </div>
                     </div>
                 </div>
@@ -269,7 +271,7 @@ export default function BusinessSystemsAndAiSection() {
                                 className="object-cover opacity-90"
                             />
                             <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                                <p className="text-white text-xs font-medium">System Architecture</p>
+                                <p className="text-white text-xs font-medium">{t("business.cards.systemArchitecture")}</p>
                             </div>
                         </div>
                     </div>
@@ -301,16 +303,16 @@ export default function BusinessSystemsAndAiSection() {
                         {/* Main Card */}
                         <div className="visual-card visual-card-brief bg-white rounded-3xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] p-5 border border-neutral-100/50">
                             <div className="mb-3">
-                                <h4 className="font-bold text-[10px] uppercase tracking-widest text-neutral-400 mb-2">Project Brief</h4>
+                                <h4 className="font-bold text-[10px] uppercase tracking-widest text-neutral-400 mb-2">{t("business.brief.title")}</h4>
                                 <div className="space-y-2 text-xs leading-relaxed text-neutral-800 font-medium font-sans">
                                     <p>
-                                        I&apos;m working on a business idea and I want to build a proper system around it.Right now,<br /> I&apos;m looking for help designing and developing a solution that fits my needs...
+                                        {t("business.brief.p1")}
                                     </p>
                                     <p className="text-neutral-500 text-[10px]">
-                                        The goal is to create a system that supports my business operations and helps me grow. I&apos;m open to guidance on the best structure...
+                                        {t("business.brief.p2")}
                                     </p>
                                     <p className="text-[10px] text-neutral-300 mt-2 pt-2 border-t border-neutral-100">
-                                        This is an example project brief.Your submission will be reviewed by our team of designers, developers, and AI specialists.
+                                        {t("business.brief.p3")}
                                     </p>
                                 </div>
                             </div>
@@ -318,7 +320,7 @@ export default function BusinessSystemsAndAiSection() {
                             <div className="relative mt-2">
                                 <input
                                     type="text"
-                                    placeholder="Write your idea here"
+                                    placeholder={t("business.brief.placeholder")}
                                     className="w-full bg-transparent text-sm border-none p-0 focus:ring-0 placeholder:text-neutral-300 text-neutral-800 font-medium cursor-not-allowed opacity-50"
                                     disabled
                                 />

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCursor } from "@/context/CursorContext";
+import { useLanguage } from "@/context/LanguageContext";
 // Image (Next.js Image) used for flags
 import Image from "next/image";
 
@@ -62,6 +63,7 @@ const RINGS = [
 
 export default function CtaSection() {
     const { showClick, resetCursor } = useCursor();
+    const { t } = useLanguage();
 
     return (
         <section
@@ -69,7 +71,7 @@ export default function CtaSection() {
             className="relative w-full min-h-[120vh] bg-black z-10 pt-24 pb-0 flex flex-col items-center justify-start overflow-hidden"
         >
             {/* Title - Top */}
-            <h2 className="text-white text-4xl md:text-5xl font-bold tracking-tight z-20">Clients</h2>
+            <h2 className="text-white text-4xl md:text-5xl font-bold tracking-tight z-20">{t("cta.clientsTitle")}</h2>
 
             {/* Panel Container - ~90vh Mark (mt-[10vh]) */}
             <div className="relative w-full max-w-[95%] xl:max-w-[1400px] h-[85vh] mx-auto mt-[10vh] border border-white/10 rounded-[3rem] overflow-hidden bg-[#030303] shadow-2xl shrink-0 group">

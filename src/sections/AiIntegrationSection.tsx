@@ -3,8 +3,10 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function AiIntegrationSection() {
+    const { t } = useLanguage();
     const sectionRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
     const doorContainerRef = useRef<HTMLDivElement>(null);
@@ -213,19 +215,19 @@ export default function AiIntegrationSection() {
                 <div className="container px-6 max-w-[95%] mx-auto flex justify-between items-start">
                     <div ref={leftLabelRef} className="text-left">
                         <span className="block text-xs md:text-sm font-bold tracking-widest uppercase mb-1">
-                            AI Integration
+                            {t("ai.label.left.line1")}
                         </span>
                         <span className="block text-xs md:text-sm tracking-widest uppercase text-neutral-500">
-                            Strategy
+                            {t("ai.label.left.line2")}
                         </span>
                     </div>
                     <div ref={rightLabelRef} className="text-right">
                         <div className="flex flex-col items-end">
                             <span className="block text-xs md:text-sm font-bold tracking-widest uppercase mb-1">
-                                Business Scaling
+                                {t("ai.label.right.line1")}
                             </span>
                             <span className="block text-xs md:text-sm tracking-widest uppercase text-neutral-500">
-                                Automation
+                                {t("ai.label.right.line2")}
                             </span>
                         </div>
                     </div>
@@ -292,8 +294,8 @@ export default function AiIntegrationSection() {
                 {/* Description */}
                 <div className="container px-6 max-w-7xl mx-auto text-center perspective-1000">
                     <p ref={descRef} className="max-w-lg mx-auto text-xs md:text-lg text-neutral-600 font-medium tracking-wide leading-relaxed">
-                        Bring AI into your business and transform the way you work<br />
-                        Using intelligent systems designed around your data, processes, and vision.
+                        {t("ai.desc.line1")}<br />
+                        {t("ai.desc.line2")}
                     </p>
                 </div>
             </div>

@@ -10,6 +10,8 @@ import profileImg from "@/assets/images/profile.jpg";
 import logoImg from "@/assets/logo/logo.png";
 import { useCursor } from "@/context/CursorContext";
 import { useChatContext } from "@/context/ChatContext";
+import { useLanguage } from "@/context/LanguageContext";
+import LanguageToggle from "@/components/LanguageToggle";
 
 export default function PixelPointHeader() {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -20,6 +22,14 @@ export default function PixelPointHeader() {
     const ctaButtonRef = useRef<HTMLAnchorElement>(null);
     const { showClick, resetCursor } = useCursor();
     const { openChat } = useChatContext();
+    const { t } = useLanguage();
+
+    const navItems = [
+        { key: "services", labelKey: "header.nav.services" as const, href: "/services" },
+        { key: "privacy", labelKey: "header.nav.privacy" as const, href: "/privacy" },
+        { key: "about", labelKey: "header.nav.about" as const, href: "/about" },
+        { key: "feedback", labelKey: "header.nav.feedback" as const, href: "/feedback" },
+    ];
 
     // Track scroll direction (for entry animation)
     const lastScrollY = useRef(0);
@@ -183,29 +193,28 @@ export default function PixelPointHeader() {
             <div className="flex items-center gap-6 text-sm font-normal">
                 {/* Menu Items */}
                 <div ref={linksContainerRef} className="hidden md:flex items-center gap-6">
-                    {["Services", "Privacy & Terms", "About Me", "Feedback"].map((item) => (
-                        <Link
-                            key={item}
-                            href={
-                                item === "Services" ? "/services" :
-                                    item === "Privacy & Terms" ? "/privacy" :
-                                        item === "About Me" ? "/about" :
-                                            item === "Feedback" ? "/feedback" :
-                                                "#"
-                            }
-                            className="nav-link group relative overflow-hidden font-poppins"
-                            style={{ height: '1.4em', lineHeight: '1.4em' }}
-                            onMouseEnter={showClick}
-                            onMouseLeave={resetCursor}
-                        >
-                            <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full">
-                                {item}
-                            </span>
-                            <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full">
-                                {item}
-                            </span>
-                        </Link>
-                    ))}
+                    {navItems.map((item) => {
+                        const label = t(item.labelKey);
+                        return (
+                            <Link
+                                key={item.key}
+                                href={item.href}
+                                className="nav-link group relative overflow-hidden font-poppins"
+                                style={{ height: '1.4em', lineHeight: '1.4em' }}
+                                onMouseEnter={showClick}
+                                onMouseLeave={resetCursor}
+                            >
+                                <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full">
+                                    {label}
+                                </span>
+                                <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full">
+                                    {label}
+                                </span>
+                            </Link>
+                        );
+                    })}
+                    {/* Elegant language dropdown — adapts to scroll state */}
+                    <LanguageToggle variant="navbar" onDark={isScrolled} />
                 </div>
 
                 {/* CTA Button */}
@@ -228,12 +237,12 @@ export default function PixelPointHeader() {
                             openChat("large");
                         }}
                     >
-                        Ask AI
+                        {t("header.cta.askAi")}
                     </Link>
                 ) : (
                     <div className="hidden md:flex items-center gap-4">
-                        <Link href="mailto:info@pixelpoint.io" className="text-[#F22F5D] hover:underline font-semibold" onMouseEnter={showClick} onMouseLeave={resetCursor}>
-                            abukarabdirsak@tarzan.software
+                        <Link href="mailto:a.abdirsak1999@gmail.com" className="text-[#F22F5D] hover:underline font-semibold" onMouseEnter={showClick} onMouseLeave={resetCursor}>
+                            a.abdirsak1999@gmail.com
                         </Link>
                     </div>
                 )}
@@ -274,31 +283,30 @@ export default function PixelPointHeader() {
                     </button>
 
                     <div className="flex flex-col items-center gap-8 text-3xl font-medium text-white">
-                        {["Services", "Privacy & Terms", "About Me", "Feedback"].map((item) => (
+                        {navItems.map((item) => (
                             <Link
-                                key={item}
-                                href={
-                                    item === "Services" ? "/services" :
-                                        item === "Privacy & Terms" ? "/privacy" :
-                                            item === "About Me" ? "/about" :
-                                                item === "Feedback" ? "/feedback" :
-                                                    "#"
-                                }
+                                key={item.key}
+                                href={item.href}
                                 className="hover:text-gray-400 transition-colors"
                                 onClick={() => setMobileMenuOpen(false)}
                             >
-                                {item}
+                                {t(item.labelKey)}
                             </Link>
                         ))}
+
+                        {/* Language switcher (mobile) */}
+                        <div className="mt-4">
+                            <LanguageToggle variant="mobile" />
+                        </div>
 
                         <button
                             onClick={() => {
                                 setMobileMenuOpen(false);
                                 openChat("large");
                             }}
-                            className="mt-8 px-10 py-4 bg-white text-black rounded-full font-bold uppercase text-base tracking-wider"
+                            className="mt-4 px-10 py-4 bg-white text-black rounded-full font-bold uppercase text-base tracking-wider"
                         >
-                            Ask AI
+                            {t("header.cta.askAi")}
                         </button>
                     </div>
                 </div>,
