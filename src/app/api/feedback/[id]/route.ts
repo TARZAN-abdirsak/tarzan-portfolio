@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/firestoreAdmin";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 // PATCH: Update feedback status (admin only)
 export async function PATCH(
     req: NextRequest,

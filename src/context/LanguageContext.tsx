@@ -14,8 +14,8 @@ const LanguageContext = createContext<LanguageContextValue | undefined>(undefine
 const STORAGE_KEY = "tarzan_locale";
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-    // Default is Somali ("so") - user requested
-    const [locale, setLocaleState] = useState<Locale>("so");
+    // Default is English ("en") - user requested
+    const [locale, setLocaleState] = useState<Locale>("en");
 
     // Read persisted locale on client mount
     useEffect(() => {

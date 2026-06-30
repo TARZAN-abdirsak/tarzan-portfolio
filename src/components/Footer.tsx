@@ -85,7 +85,7 @@ export default function Footer() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#" className="group relative overflow-hidden block" style={{ height: '1.5em', lineHeight: '1.5em' }}>
+                                <Link href="https://www.linkedin.com/in/abubakar-abdirsak-993010372" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden block" style={{ height: '1.5em', lineHeight: '1.5em' }}>
                                     <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full group-hover:text-white">LinkedIn</span>
                                     <span className="block transition-transform duration-[250ms] ease-out group-hover:-translate-y-full text-white">LinkedIn</span>
                                 </Link>

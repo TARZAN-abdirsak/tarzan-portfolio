@@ -10,10 +10,10 @@ import { useLanguage } from "@/context/LanguageContext";
 const SHIP_DATE_UTC = "2026-05-14T12:00:00Z";
 
 const screens = [
-    { src: "/near/01.png", labelKey: "near.screen.1.label" as const, rotate: -8, delay: 0 },
-    { src: "/near/02.png", labelKey: "near.screen.2.label" as const, rotate: -3, delay: 0.1 },
-    { src: "/near/03.png", labelKey: "near.screen.3.label" as const, rotate: 3, delay: 0.2 },
-    { src: "/near/04.png", labelKey: "near.screen.4.label" as const, rotate: 8, delay: 0.3 },
+    { src: "/near/01.png", labelKey: "near.screen.1.label" as const },
+    { src: "/near/02.png", labelKey: "near.screen.2.label" as const },
+    { src: "/near/03.png", labelKey: "near.screen.3.label" as const },
+    { src: "/near/04.png", labelKey: "near.screen.4.label" as const },
 ];
 
 const stack = ["Flutter", "Supabase", "Go", "OpenAI"];
@@ -87,19 +87,16 @@ export default function NearAppSection() {
                 });
             }
 
-            // Phone screens drop-in with rotation
-            const phones = galleryRef.current?.querySelectorAll(".near-phone");
-            if (phones && phones.length) {
-                gsap.from(phones, {
-                    y: 120,
+            // Reel fades/rises in as a whole
+            if (galleryRef.current) {
+                gsap.from(galleryRef.current, {
+                    y: 80,
                     opacity: 0,
-                    scale: 0.85,
-                    duration: 1.1,
-                    ease: "back.out(1.4)",
-                    stagger: 0.12,
+                    duration: 1,
+                    ease: "power3.out",
                     scrollTrigger: {
                         trigger: galleryRef.current,
-                        start: "top 80%",
+                        start: "top 85%",
                         toggleActions: "play none none reverse",
                     },
                 });
@@ -290,40 +287,63 @@ export default function NearAppSection() {
                     </div>
                 </div>
 
-                {/* Phone screens gallery */}
-                <div
-                    ref={galleryRef}
-                    className="relative grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8"
-                >
-                    {screens.map((s, i) => (
-                        <div
-                            key={i}
-                            className="near-phone group relative"
-                            style={{ transform: `rotate(${s.rotate}deg)` }}
-                        >
-                            <div className="relative aspect-[9/19] rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-[#111] border-[3px] border-white/10 shadow-[0_30px_80px_-15px_rgba(0,0,0,0.7)] transition-all duration-500 group-hover:scale-[1.04] group-hover:rotate-0 group-hover:shadow-[0_40px_100px_-15px_rgba(74,144,226,0.4)]">
+            </div>
+
+            {/* Phone screens — horizontal auto-scrolling reel (full-bleed) */}
+            <div ref={galleryRef} className="near-reel-wrap relative mt-4">
+                {/* Edge fades */}
+                <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-[#0a0a0a] to-transparent z-20 pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-[#0a0a0a] to-transparent z-20 pointer-events-none" />
+
+                {/* Marquee track — duplicated for a seamless loop */}
+                <div className="near-reel-track flex gap-5 md:gap-7 w-max py-4">
+                    {[...screens, ...screens, ...screens].map((s, i) => (
+                        <div key={i} className="near-reel-card group/card relative shrink-0">
+                            <div className="relative w-[150px] md:w-[200px] aspect-[9/19] rounded-[1.75rem] md:rounded-[2.25rem] overflow-hidden bg-[#111] border-[3px] border-white/10 shadow-[0_30px_80px_-15px_rgba(0,0,0,0.7)] transition-all duration-500 group-hover/card:scale-[1.05] group-hover/card:border-white/25 group-hover/card:shadow-[0_40px_100px_-15px_rgba(74,144,226,0.45)]">
                                 {/* Notch */}
-                                <div className="absolute top-2 left-1/2 -translate-x-1/2 w-16 h-1.5 bg-black rounded-full z-10" />
+                                <div className="absolute top-2 left-1/2 -translate-x-1/2 w-14 h-1.5 bg-black rounded-full z-10" />
                                 <Image
                                     src={s.src}
                                     alt={t(s.labelKey)}
                                     fill
-                                    sizes="(max-width: 768px) 50vw, 25vw"
+                                    sizes="200px"
                                     className="object-cover"
                                 />
-                            </div>
-                            {/* Label */}
-                            <div
-                                className="absolute -bottom-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap"
-                            >
-                                <span className="px-3 py-1 rounded-full bg-white text-black text-[10px] font-bold uppercase tracking-wider">
-                                    {t(s.labelKey)}
-                                </span>
+                                {/* Label overlay */}
+                                <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">
+                                    <span className="text-[10px] font-bold uppercase tracking-wider text-white">
+                                        {t(s.labelKey)}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
+
+            {/* Reel animation */}
+            <style jsx>{`
+                .near-reel-track {
+                    animation: near-reel-scroll 36s linear infinite;
+                }
+                .near-reel-wrap:hover .near-reel-track {
+                    animation-play-state: paused;
+                }
+                @keyframes near-reel-scroll {
+                    from {
+                        transform: translateX(0);
+                    }
+                    to {
+                        /* Move by exactly one set of the 4 screens (1/3 of the tripled track) */
+                        transform: translateX(-33.3333%);
+                    }
+                }
+                @media (prefers-reduced-motion: reduce) {
+                    .near-reel-track {
+                        animation: none;
+                    }
+                }
+            `}</style>
         </section>
     );
 }

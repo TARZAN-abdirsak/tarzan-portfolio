@@ -31,10 +31,12 @@ export default function FeedbackForm() {
                 body: JSON.stringify(formData)
             });
 
-            const data = await res.json();
+            // Guard against empty / non-JSON responses (e.g. server 500 with no body)
+            const raw = await res.text();
+            const data = raw ? JSON.parse(raw) : {};
 
             if (!res.ok) {
-                throw new Error(data.error || 'Failed to submit');
+                throw new Error(data.error || `Failed to submit (${res.status})`);
             }
 
             setSuccess(true);

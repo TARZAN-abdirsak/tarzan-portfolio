@@ -89,7 +89,7 @@ export default function LiquidTimeWidget() {
         const updateTime = () => {
             const now = new Date();
             const options: Intl.DateTimeFormatOptions = {
-                timeZone: "Europe/Istanbul",
+                timeZone: "Africa/Mogadishu",
                 hour: "2-digit",
                 minute: "2-digit",
                 hour12: true,
@@ -156,7 +156,7 @@ export default function LiquidTimeWidget() {
         <div ref={widgetRef} className="px-4 py-2 select-none transition-colors duration-300">
             <div className="flex items-baseline gap-2 font-serif text-lg md:text-xl tracking-tight">
                 <span className={`leading-none font-bold transition-colors duration-300 ${locationColor}`}>
-                    Istanbul, Turkey
+                    Mogadishu, Somalia
                 </span>
                 <span className="font-medium leading-none inline-flex">
                     {time.split("").map((char, i) => (

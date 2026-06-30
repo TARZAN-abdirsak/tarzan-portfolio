@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/firestoreAdmin";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 // GET: Return ALL feedback (admin only)
 export async function GET(req: NextRequest) {
     // Check admin secret
