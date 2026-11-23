@@ -34,8 +34,9 @@ const INFLUENCE_ITEMS: PhysicsItem[] = [
 // Import project images
 
 
+import koodbyImg from '@/assets/our-production/koodby.jpg';
+import tirsoImg from '@/assets/our-production/tirso.jpg';
 import zonetechImg from '@/assets/our-production/zonetech-landing.png';
-import cricksImg from '@/assets/our-production/cricks_lap.png';
 import marlabiImg from '@/assets/our-production/murlabi.png';
 import soundexperienceImg from '@/assets/our-production/Sound-Experience.png';
 
@@ -43,8 +44,8 @@ type ProjectRoleKey =
     | 'projects.marlupi.role'
     | 'projects.soundExperience.role'
     | 'projects.zonetech.role'
-    | 'projects.cricksLap.role'
-    | 'projects.febc.role';
+    | 'projects.koodby.role'
+    | 'projects.tirso.role';
 
 const PROJECTS: Array<{
     id: number;
@@ -59,8 +60,8 @@ const PROJECTS: Array<{
     { id: 1, name: 'Marlupi', roleKey: 'projects.marlupi.role', image: marlabiImg, width: '400px', height: '200px', link: 'https://marlupi.id/' },
     { id: 2, name: 'Sound Experience', roleKey: 'projects.soundExperience.role', image: soundexperienceImg, width: '400px', height: '200px', link: 'https://soundexperience.ircamamplify.com/' },
     { id: 3, name: 'ZoneTech', roleKey: 'projects.zonetech.role', image: zonetechImg, width: '400px', height: '200px', link: 'https://zon-tech.com/' },
-    { id: 4, name: 'Cricks Lap', roleKey: 'projects.cricksLap.role', image: cricksImg, width: '400px', height: '200px', link: 'https://crickslab.com/' },
-    { id: 5, name: 'Febc', roleKey: 'projects.febc.role', image: cricksImg, video: '/videos/febc.webm', width: '400px', height: '200px', link: 'https://crickslab.com/' },
+    { id: 4, name: 'Koodby', roleKey: 'projects.koodby.role', image: koodbyImg, width: '400px', height: '200px', link: 'https://koodby.com/' },
+    { id: 5, name: 'Tirso', roleKey: 'projects.tirso.role', image: tirsoImg, width: '400px', height: '200px', link: 'https://www.tirsopos.com/en' },
 ];
 
 export default function HorizontalScrollSection() {

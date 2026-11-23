@@ -84,6 +84,8 @@ export const translations = {
             "10+ apps shipped. From fintech to e-commerce, each project taught me something new.",
         "production.sayHi": "(say hi)",
         "production.toMyProduction": "to my production",
+        "projects.koodby.role": "Software Company",
+        "projects.tirso.role": "POS & Store Control",
         "projects.marlupi.role": "Academy",
         "projects.soundExperience.role": "Event",
         "projects.zonetech.role": "Affiliate page",
@@ -211,14 +213,23 @@ export const translations = {
         "about.line3.pre": "Value What",
         "about.line3.hi": "Matter .",
         "about.launch.loading": "Loading...",
-        "about.launch.in": "Launch in",
-        "about.launch.live": "🚀 Project is live",
+        "about.launch.status": "🧪 Testing Mode · Tirso",
+        "about.launch.in": "Release in",
+        "about.launch.live": "🚀 Tirso is live",
         "about.currentRole": "Current role",
         "about.currentRole.desc":
-            "Currently building Near — an AI-powered productivity and wellness companion app that combines task management, mood tracking, sleep logging, and Nia, your personal AI advisor.",
+            "Currently in testing: Tirso — a modern POS app that helps businesses manage products, track sales and cash flow, and handle everyday transactions with ease.",
         "about.greeting": "Hi my name is Abukar Abdirsak Gutale",
         "about.handwritten":
             "I enjoy solving problems and turning complex ideas into clear, reliable systems. I care about quality, clarity, and making things work the right way.",
+        "about.badge.title": "I Am Tarzan",
+        "about.badge.subtitle": "Creative Technologist · 2026",
+        "about.badge.name": "Abukar Abdirsak",
+        "about.badge.org": "Koodby · CEO",
+        "about.badge.role": "Software & AI Engineer",
+        "about.badge.strapText": "work with passion",
+        "about.badge.strapLabel": "TARZAN.SOFTWARE",
+        "about.badge.hint": "Drag to swing · Click to flip",
 
         // ── WorkflowSection ───────────────────────────────────
         "workflow.discovery.title": "DISCOVERY",
@@ -270,6 +281,7 @@ export const translations = {
             "Thoughts and experiences shared by people I've worked with.",
         "feedback.viewBtn": "View Feedback",
         "feedback.leaveBtn": "Leave Feedback",
+        "feedback.loadMore": "Load More",
 
         // ── Privacy page ──────────────────────────────────────
         "privacy.pageTitle": "Privacy Policy & Terms",
@@ -483,6 +495,8 @@ export const translations = {
             "In ka badan 10 app oo la sii daayay. Laga bilaabo fintech ilaa e-commerce, mashruuc kasta wax cusub buu i baray.",
         "production.sayHi": "(salaan)",
         "production.toMyProduction": "wax-soo-saarkayga",
+        "projects.koodby.role": "Shirkad Software",
+        "projects.tirso.role": "App POS & Maamul Dukaan",
         "projects.marlupi.role": "Akadeemi",
         "projects.soundExperience.role": "Munaasibad",
         "projects.zonetech.role": "Bog wakaalad",
@@ -610,14 +624,23 @@ export const translations = {
         "about.line3.pre": "Qiimee Waxa",
         "about.line3.hi": "Muhiim ah .",
         "about.launch.loading": "Soo dejinaya...",
-        "about.launch.in": "Furitaanka",
-        "about.launch.live": "🚀 Mashruucu wuxuu furmay",
+        "about.launch.status": "🧪 Marxaladda Tijaabada · Tirso",
+        "about.launch.in": "Siideynta",
+        "about.launch.live": "🚀 Tirso wuu furmay",
         "about.currentRole": "Doorka Hadda",
         "about.currentRole.desc":
-            "Hadda waxaan dhisayaa Near — app AI ah oo wax-soo-saar iyo caafimaad isugu jira oo isku daraya maaraynta hawlaha, raadraaca niyada, diiwaangelinta hurdada, iyo Nia, la-taliyahaaga AI shakhsiga ah.",
+            "Hadda marxaladda tijaabada: Tirso — app POS casri ah oo ka caawiya ganacsiyada maamulka alaabta, raadraaca iibka iyo lacagta, iyo habaynta macaamilka maalinlaha ah si fudud.",
         "about.greeting": "Salaam, magacaygu waa Abukar Abdirsak Gutale",
         "about.handwritten":
             "Waxaan ku riyaaqaa xallinta dhibaatooyinka iyo u rogida fikradaha adag nidaamyo cad oo lagu kalsoonaan karo. Waxaan dan ka leeyahay tayada, caddaynta, iyo in waxyaalaha si sax ah loo shaqeysiiyo.",
+        "about.badge.title": "I Am Tarzan",
+        "about.badge.subtitle": "Injineer Hal-abuur · 2026",
+        "about.badge.name": "Abukar Abdirsak",
+        "about.badge.org": "Koodby · CEO",
+        "about.badge.role": "Software & AI Engineer",
+        "about.badge.strapText": "ku shaqee xiisaha",
+        "about.badge.strapLabel": "TARZAN.SOFTWARE",
+        "about.badge.hint": "Jiid si aad u ruxdo · Guji si aad u rogto",
 
         // ── WorkflowSection ───────────────────────────────────
         "workflow.discovery.title": "BARASHO",
@@ -669,6 +692,7 @@ export const translations = {
             "Aragtiyo iyo waaya-aragnimo ay la wadaageen dadkii aan la shaqeeyay.",
         "feedback.viewBtn": "Eeg Jawaab-Celinta",
         "feedback.leaveBtn": "Reeb Jawaab-Celin",
+        "feedback.loadMore": "Muuji In Badan",
 
         // ── Privacy page ──────────────────────────────────────
         "privacy.pageTitle": "Sirta & Shuruudaha",

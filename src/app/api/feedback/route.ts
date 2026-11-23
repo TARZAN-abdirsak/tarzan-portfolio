@@ -49,9 +49,15 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "Invalid message" }, { status: 400 });
         }
 
+        const daahqaadHandle =
+            typeof body.daahqaad === "string"
+                ? body.daahqaad.trim().replace(/^@+/, "") || null
+                : null;
+
         const doc = await db.collection("feedback").add({
             name: body.name || "Anonymous",
             email: body.email || null,
+            daahqaad: daahqaadHandle,
             message: body.message,
             rating: body.rating || null,
             context: body.context || "General",

@@ -1,16 +1,22 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLanguage } from "@/context/LanguageContext";
+import { useCursor } from "@/context/CursorContext";
+import LanyardBadge from "@/components/ui/lanyard-badge";
+import profileImg from "@/assets/images/profile.jpg";
 
 
 export default function AboutMeSection() {
     const { t } = useLanguage();
+    const { showDrag, resetCursor } = useCursor();
     const sectionRef = useRef<HTMLDivElement>(null);
     const textRef = useRef<HTMLDivElement>(null);
     const noteRef = useRef<HTMLDivElement>(null);
+    const badgeSlotRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
@@ -21,6 +27,7 @@ export default function AboutMeSection() {
                 y: 50,
                 opacity: 0,
                 duration: 1,
+                clearProps: "transform",
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: "top 70%",
@@ -32,6 +39,7 @@ export default function AboutMeSection() {
                 opacity: 0,
                 duration: 1,
                 delay: 0.3,
+                clearProps: "transform",
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: "top 70%",
@@ -44,8 +52,8 @@ export default function AboutMeSection() {
 
     const [timeLeft, setTimeLeft] = useState("");
 
-    // Fixed UTC Launch Date - Set this to your actual launch date
-    const LAUNCH_DATE_UTC = "2026-05-31T12:00:00Z";
+    // Fixed UTC Launch Date - 14 days from 2026-11-23
+    const LAUNCH_DATE_UTC = "2026-12-07T17:30:00Z";
 
     useEffect(() => {
         const targetTime = new Date(LAUNCH_DATE_UTC).getTime();
@@ -60,7 +68,7 @@ export default function AboutMeSection() {
                 const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-                return `⏳ ${t("about.launch.in")} ${days}d ${hours}h ${minutes}m ${seconds}s`;
+                return `${t("about.launch.status")} · ⏳ ${t("about.launch.in")} ${days}d ${hours}h ${minutes}m ${seconds}s`;
             } else {
                 return t("about.launch.live");
             }
@@ -78,12 +86,12 @@ export default function AboutMeSection() {
     }, [t]);
 
     return (
-        <section id="about-me" ref={sectionRef} className="relative w-full h-full bg-[#f9f9f9] flex flex-col justify-center px-6 md:px-12 lg:px-24 overflow-hidden">
+        <section id="about-me" ref={sectionRef} className="relative w-full flex-1 bg-[#f9f9f9] flex flex-col justify-start px-6 md:px-12 lg:px-24 pb-24 overflow-x-clip">
 
-            <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 relative h-full pt-20 lg:pt-0">
+            <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-10 items-start relative z-10">
 
                 {/* Left Side: Big Typography */}
-                <div ref={textRef} className="lg:col-span-7 flex flex-col gap-6 lg:gap-8 z-10 justify-center h-full order-2 lg:order-1 pb-12 lg:pb-0">
+                <div ref={textRef} className="lg:col-span-7 flex flex-col gap-6 lg:gap-8 z-10 justify-center lg:pt-4 order-2 lg:order-1 pb-8 lg:pb-0">
                     <div className="text-[2rem] sm:text-4xl md:text-5xl lg:text-[4.5rem] leading-[1.1] font-black tracking-tight text-neutral-900 font-[family-name:var(--font-geist-sans)] text-center lg:text-left">
                         <span className="block">
                             {t("about.line1.pre")} <span className="relative inline-block px-1 lg:px-2">
@@ -105,7 +113,7 @@ export default function AboutMeSection() {
                         </span>
                     </div>
 
-                    <div className="mt-4 lg:mt-1 xl:mt-16 text-center lg:text-left">
+                    <div className="mt-4 lg:mt-6 text-center lg:text-left">
                         {/* Launch Countdown */}
                         <div className="mb-2 text-xs lg:text-sm font-mono font-bold text-neutral-500 uppercase tracking-widest">
                             {timeLeft || t("about.launch.loading")}
@@ -118,21 +126,23 @@ export default function AboutMeSection() {
                     </div>
                 </div>
 
-                {/* Right Side: Handwritten Note & Avatar */}
-                <div ref={noteRef} className="lg:col-span-5 relative flex flex-col items-center lg:items-end lg:justify-start lg:pt-20 group lg:pl-16 order-1 lg:order-2">
+                {/* Right Side: Anchor Slot for Floating Lanyard Badge & Handwritten Note */}
+                <div className="lg:col-span-5 relative flex flex-col items-center lg:items-end justify-start gap-4 order-1 lg:order-2">
 
-                    {/* Arrow pointing to text - absolute relative to this container */}
-                    <div className="hidden lg:block absolute left-0 top-[24rem] pointer-events-none transform -rotate-12 translate-x-4">
-                        <svg width="150" height="150" viewBox="0 0 4123 4094" fill="none" className="text-black">
-                            <path d="M32.252 3033.85L625.09 2694.35L569.228 3456.2L32.252 3033.85Z" fill="currentColor" />
-                            <path d="M4093 1073.7C2845.15 1604.44 2294.72 1757.35 2229.43 1855.13C2164.15 1952.9 2981.95 1997.04 2952.4 2303.09C2922.85 2609.13 554.951 3291.71 498.091 3005.18" stroke="currentColor" strokeWidth="150" />
-                        </svg>
+                    {/* Layout space reserved for the resting lanyard badge */}
+                    <div
+                        ref={badgeSlotRef}
+                        className="relative w-full max-w-md h-[515px] pointer-events-none"
+                    >
+                        <div className="pointer-events-none absolute inset-x-0 bottom-3 text-center text-[11px] font-mono uppercase tracking-widest text-neutral-500/80">
+                            {t("about.badge.hint")}
+                        </div>
                     </div>
 
-                    <div className="relative transform rotate-0 lg:rotate-6 transition-transform duration-300 hover:rotate-0 flex flex-col items-center lg:items-end">
+                    <div ref={noteRef} className="relative transform rotate-0 lg:rotate-2 transition-transform duration-300 hover:rotate-0 flex flex-col items-center lg:items-end">
 
-                        {/* Avatar with name */}
-                        <div className="flex flex-col lg:flex-row items-center gap-3 lg:gap-4 mb-4 text-center lg:text-right">
+                        {/* Greeting */}
+                        <div className="flex flex-col lg:flex-row items-center gap-3 lg:gap-4 mb-2 text-center lg:text-right">
                             <div
                                 className="font-[family-name:var(--font-caveat)] text-xl lg:text-2xl font-black text-neutral-800"
                                 style={{ textShadow: "0.5px 0 0 currentColor" }}
@@ -143,7 +153,7 @@ export default function AboutMeSection() {
 
                         {/* Handwritten Body */}
                         <div
-                            className="font-[family-name:var(--font-caveat)] text-2xl sm:text-3xl md:text-4xl text-neutral-800 leading-tight tracking-wide max-w-xs sm:max-w-sm font-black text-center lg:text-right"
+                            className="font-[family-name:var(--font-caveat)] text-xl sm:text-2xl md:text-[1.65rem] text-neutral-800 leading-tight tracking-wide max-w-sm font-black text-center lg:text-right"
                             style={{ textShadow: "0.5px 0 0 currentColor" }}
                         >
                             {t("about.handwritten")}
@@ -153,6 +163,94 @@ export default function AboutMeSection() {
                 </div>
 
             </div>
+
+            {/* Full-page floating Lanyard Badge overlay so the card & straps glide freely over every element */}
+            <LanyardBadge
+                overlay
+                anchorRef={badgeSlotRef}
+                onCardMouseEnter={showDrag}
+                onCardMouseLeave={resetCursor}
+                className="z-40 [--color-background:#ffffff] [--color-foreground:#171717] [--color-border:#e5e5e5] [--color-muted:#f0f0f0] [--color-primary:#171717]"
+                title={t("about.badge.title")}
+                subtitle={t("about.badge.subtitle")}
+                name={t("about.badge.name")}
+                role={t("about.badge.role")}
+                strapText={t("about.badge.strapText")}
+                strapLabel={t("about.badge.strapLabel")}
+                flipButton={false}
+                cardWidth={210}
+                height="100%"
+                front={
+                    <div className="relative flex h-full w-full flex-col bg-[#e8dfcc] text-[#141312]">
+                        {/* Top ID Header (clears punched lanyard slot) */}
+                        <div className="flex items-center justify-between px-3.5 pt-[26px] pb-1.5">
+                            <span className="flex items-center gap-1.5 text-[8px] font-mono font-bold tracking-[0.12em] text-[#141312]/75">
+                                <span className="h-1.5 w-1.5 rounded-full bg-[#b59a6c]" />
+                                {t("about.badge.org")}
+                            </span>
+                            <span className="text-[7.5px] font-mono font-bold tracking-[0.14em] text-[#8f7447]">
+                                ID · 2024
+                            </span>
+                        </div>
+
+                        {/* Portrait Photo */}
+                        <div className="relative mx-3.5 flex-1 min-h-0 overflow-hidden rounded-xl border border-[#141312]/15 bg-[#d9d2c5] shadow-inner">
+                            <Image
+                                src={profileImg}
+                                alt={t("about.badge.name")}
+                                fill
+                                sizes="210px"
+                                priority
+                                draggable={false}
+                                className="pointer-events-none select-none object-cover object-top"
+                            />
+                            <div
+                                aria-hidden="true"
+                                className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-black/10"
+                            />
+                        </div>
+
+                        {/* Name & Role */}
+                        <div className="px-3.5 pt-2.5 pb-2">
+                            <div className="text-[14px] font-black uppercase leading-tight tracking-tight text-[#141312]">
+                                {t("about.badge.name")}
+                            </div>
+                            <div className="mt-0.5 text-[7.5px] font-semibold uppercase tracking-[0.15em] text-[#7c643b]">
+                                {t("about.badge.role")}
+                            </div>
+                        </div>
+
+                        {/* Bottom ID Barcode Strip */}
+                        <div className="flex items-center justify-between bg-[#141312] px-3.5 py-2 text-[#e8dfcc]">
+                            <span className="text-[8px] font-mono font-bold uppercase tracking-[0.18em] text-[#b59a6c]">
+                                {t("about.badge.title")}
+                            </span>
+                            <svg
+                                viewBox="0 0 46 14"
+                                width="44"
+                                height="13"
+                                aria-hidden="true"
+                                className="text-[#e8dfcc]/80"
+                                fill="currentColor"
+                            >
+                                <rect x="0" y="0" width="2" height="14" />
+                                <rect x="4" y="0" width="1" height="14" />
+                                <rect x="7" y="0" width="3" height="14" />
+                                <rect x="12" y="0" width="1" height="14" />
+                                <rect x="15" y="0" width="2" height="14" />
+                                <rect x="19" y="0" width="3" height="14" />
+                                <rect x="24" y="0" width="1" height="14" />
+                                <rect x="27" y="0" width="2" height="14" />
+                                <rect x="31" y="0" width="1" height="14" />
+                                <rect x="34" y="0" width="3" height="14" />
+                                <rect x="39" y="0" width="1" height="14" />
+                                <rect x="42" y="0" width="2" height="14" />
+                                <rect x="45" y="0" width="1" height="14" />
+                            </svg>
+                        </div>
+                    </div>
+                }
+            />
 
         </section>
     );

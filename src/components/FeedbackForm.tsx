@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useCursor } from '@/context/CursorContext';
+import { Icons } from '@/components/ui/icons';
 
 const CONTEXT_OPTIONS = ['Collaboration', 'Project', 'Consultation', 'General'];
 
@@ -10,6 +11,7 @@ export default function FeedbackForm() {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
+        daahqaad: '',
         message: '',
         context: '',
         rating: 0,
@@ -40,7 +42,7 @@ export default function FeedbackForm() {
             }
 
             setSuccess(true);
-            setFormData({ name: '', email: '', message: '', context: '', rating: 0, honeypot: '' });
+            setFormData({ name: '', email: '', daahqaad: '', message: '', context: '', rating: 0, honeypot: '' });
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Something went wrong');
         } finally {
@@ -107,6 +109,23 @@ export default function FeedbackForm() {
                         placeholder="your@email.com"
                     />
                     <p className="text-xs text-gray-400 mt-1">Never shown publicly</p>
+                </div>
+
+                {/* Daahqaad Username */}
+                <div>
+                    <label className="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-1">
+                        <Icons.daahqaad className="h-4 w-4 text-black" aria-hidden="true" />
+                        Daahqaad Username (optional)
+                    </label>
+                    <input
+                        type="text"
+                        maxLength={50}
+                        value={formData.daahqaad}
+                        onChange={(e) => setFormData({ ...formData, daahqaad: e.target.value })}
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-black focus:ring-1 focus:ring-black outline-none transition-colors text-black"
+                        placeholder="@username"
+                    />
+                    <p className="text-xs text-gray-400 mt-1">Links your card to daahqaad.com</p>
                 </div>
 
                 {/* Message */}
