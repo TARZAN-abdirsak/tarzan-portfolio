@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/firestoreAdmin";
 import { FieldValue } from "firebase-admin/firestore";
+import { parseDaahqaadLink } from "@/lib/daahqaad";
 
 // firebase-admin needs Node runtime + no build-time static prerender
 // (no GCP credentials exist during the Docker build → would break the build)
@@ -45,20 +46,26 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ success: true });
         }
 
-        if (!body?.message || body.message.length < 3) {
+        if (!body?.message || typeof body.message !== "string" || body.message.trim().length < 3) {
             return NextResponse.json({ error: "Invalid message" }, { status: 400 });
         }
 
-        const daahqaadHandle =
+        const rawDaahqaad =
             typeof body.daahqaad === "string"
-                ? body.daahqaad.trim().replace(/^@+/, "") || null
-                : null;
+                ? body.daahqaad
+                : typeof body.daahqaadLink === "string"
+                  ? body.daahqaadLink
+                  : "";
+        const parsedDaahqaad = parseDaahqaadLink(rawDaahqaad);
+        if (parsedDaahqaad.error) {
+            return NextResponse.json({ error: parsedDaahqaad.error }, { status: 400 });
+        }
 
         const doc = await db.collection("feedback").add({
-            name: body.name || "Anonymous",
+            name: (typeof body.name === "string" && body.name.trim()) || "Anonymous",
             email: body.email || null,
-            daahqaad: daahqaadHandle,
-            message: body.message,
+            daahqaad: parsedDaahqaad.url,
+            message: body.message.trim(),
             rating: body.rating || null,
             context: body.context || "General",
             status: "published",

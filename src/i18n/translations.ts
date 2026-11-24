@@ -282,6 +282,10 @@ export const translations = {
         "feedback.viewBtn": "View Feedback",
         "feedback.leaveBtn": "Leave Feedback",
         "feedback.loadMore": "Load More",
+        "feedback.emptyTitle": "No feedback yet",
+        "feedback.emptySubtitle":
+            "Be the first to share your thoughts and experience.",
+        "feedback.emptyCta": "Leave Feedback",
 
         // ── Privacy page ──────────────────────────────────────
         "privacy.pageTitle": "Privacy Policy & Terms",
@@ -693,6 +697,10 @@ export const translations = {
         "feedback.viewBtn": "Eeg Jawaab-Celinta",
         "feedback.leaveBtn": "Reeb Jawaab-Celin",
         "feedback.loadMore": "Muuji In Badan",
+        "feedback.emptyTitle": "Weli jawaab-celin ma jirto",
+        "feedback.emptySubtitle":
+            "Noqo qofkii ugu horreeyay ee la wadaaga aragtidiisa iyo waaya-aragnimadiisa.",
+        "feedback.emptyCta": "Reeb Jawaab-Celin",
 
         // ── Privacy page ──────────────────────────────────────
         "privacy.pageTitle": "Sirta & Shuruudaha",

@@ -1,11 +1,13 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { parseDaahqaadLink } from '@/lib/daahqaad';
 
 interface FeedbackItem {
     id: string;
     name: string;
     email: string;
+    daahqaad?: string | null;
     message: string;
     context: string;
     rating?: number;
@@ -248,8 +250,21 @@ export default function AdminFeedbackPage() {
                                                 <span className="text-xs text-gray-400">{item.context}</span>
                                             </div>
                                             <p className="text-gray-700 mb-2">{item.message}</p>
-                                            <div className="flex items-center gap-4 text-xs text-gray-400">
+                                            <div className="flex flex-wrap items-center gap-4 text-xs text-gray-400">
                                                 <span>{item.email}</span>
+                                                {(() => {
+                                                    const parsed = parseDaahqaadLink(item.daahqaad);
+                                                    return parsed.url ? (
+                                                        <a
+                                                            href={parsed.url}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="text-blue-600 hover:underline"
+                                                        >
+                                                            {parsed.handle ?? parsed.url}
+                                                        </a>
+                                                    ) : null;
+                                                })()}
                                                 <span>{new Date(item.createdAt).toLocaleString()}</span>
                                                 {item.rating && <span>⭐ {item.rating}/5</span>}
                                             </div>

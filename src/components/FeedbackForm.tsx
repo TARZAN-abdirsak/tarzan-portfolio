@@ -3,10 +3,15 @@
 import React, { useState } from 'react';
 import { useCursor } from '@/context/CursorContext';
 import { Icons } from '@/components/ui/icons';
+import { parseDaahqaadLink } from '@/lib/daahqaad';
 
 const CONTEXT_OPTIONS = ['Collaboration', 'Project', 'Consultation', 'General'];
 
-export default function FeedbackForm() {
+interface FeedbackFormProps {
+    onViewFeedback?: () => void;
+}
+
+export default function FeedbackForm({ onViewFeedback }: FeedbackFormProps) {
     const { showClick, resetCursor } = useCursor();
     const [formData, setFormData] = useState({
         name: '',
@@ -19,18 +24,31 @@ export default function FeedbackForm() {
     });
     const [submitting, setSubmitting] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [successMessage, setSuccessMessage] = useState<string>('Thank you! Your feedback has been published.');
     const [error, setError] = useState<string | null>(null);
+
+    const parsedDaahqaad = parseDaahqaadLink(formData.daahqaad);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setSubmitting(true);
         setError(null);
+
+        const validatedDaahqaad = parseDaahqaadLink(formData.daahqaad);
+        if (validatedDaahqaad.error) {
+            setError(validatedDaahqaad.error);
+            return;
+        }
+
+        setSubmitting(true);
 
         try {
             const res = await fetch('/api/feedback', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({
+                    ...formData,
+                    daahqaad: validatedDaahqaad.url ?? '',
+                })
             });
 
             // Guard against empty / non-JSON responses (e.g. server 500 with no body)
@@ -41,6 +59,7 @@ export default function FeedbackForm() {
                 throw new Error(data.error || `Failed to submit (${res.status})`);
             }
 
+            setSuccessMessage(data.message || 'Thank you! Your feedback has been published.');
             setSuccess(true);
             setFormData({ name: '', email: '', daahqaad: '', message: '', context: '', rating: 0, honeypot: '' });
         } catch (err) {
@@ -55,13 +74,27 @@ export default function FeedbackForm() {
             <div className="bg-green-50 border border-green-200 rounded-2xl p-8 text-center">
                 <div className="text-4xl mb-4">🎉</div>
                 <h3 className="text-xl font-semibold text-green-800 mb-2">Thank you!</h3>
-                <p className="text-green-700">Your feedback has been submitted for review.</p>
-                <button
-                    onClick={() => setSuccess(false)}
-                    className="mt-4 text-green-600 underline hover:no-underline"
-                >
-                    Submit another
-                </button>
+                <p className="text-green-700">{successMessage}</p>
+                <div className="mt-5 flex items-center justify-center gap-4">
+                    {onViewFeedback && (
+                        <button
+                            type="button"
+                            onClick={onViewFeedback}
+                            onMouseEnter={showClick}
+                            onMouseLeave={resetCursor}
+                            className="px-5 py-2.5 bg-black text-white text-sm font-medium rounded-full hover:bg-neutral-800 transition-colors"
+                        >
+                            View Feedback
+                        </button>
+                    )}
+                    <button
+                        type="button"
+                        onClick={() => setSuccess(false)}
+                        className="text-sm text-green-700 underline hover:no-underline"
+                    >
+                        Submit another
+                    </button>
+                </div>
             </div>
         );
     }
@@ -111,21 +144,34 @@ export default function FeedbackForm() {
                     <p className="text-xs text-gray-400 mt-1">Never shown publicly</p>
                 </div>
 
-                {/* Daahqaad Username */}
+                {/* Daahqaad Link */}
                 <div>
-                    <label className="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="daahqaad-link" className="flex items-center gap-1.5 text-sm font-medium text-gray-700 mb-1">
                         <Icons.daahqaad className="h-4 w-4 text-black" aria-hidden="true" />
-                        Daahqaad Username (optional)
+                        Daahqaad Link (optional)
                     </label>
                     <input
+                        id="daahqaad-link"
                         type="text"
-                        maxLength={50}
+                        inputMode="url"
+                        maxLength={300}
                         value={formData.daahqaad}
-                        onChange={(e) => setFormData({ ...formData, daahqaad: e.target.value })}
+                        onChange={(e) => {
+                            setFormData({ ...formData, daahqaad: e.target.value });
+                            if (error) setError(null);
+                        }}
                         className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-black focus:ring-1 focus:ring-black outline-none transition-colors text-black"
-                        placeholder="@username"
+                        placeholder="https://daahqaad.com/@username"
                     />
-                    <p className="text-xs text-gray-400 mt-1">Links your card to daahqaad.com</p>
+                    {parsedDaahqaad.url ? (
+                        <p className="text-xs text-emerald-600 mt-1 truncate">
+                            Links to {parsedDaahqaad.url}
+                        </p>
+                    ) : (
+                        <p className="text-xs text-gray-400 mt-1">
+                            Paste your Daahqaad profile link or @username to link your card to daahqaad.com
+                        </p>
+                    )}
                 </div>
 
                 {/* Message */}
@@ -204,7 +250,7 @@ export default function FeedbackForm() {
             </button>
 
             <p className="mt-4 text-xs text-gray-400 text-center">
-                Your feedback will be reviewed before publishing.
+                Your feedback will appear on the Feedback page.
             </p>
         </form>
     );
